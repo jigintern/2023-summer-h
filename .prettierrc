@@ -5,5 +5,7 @@
   "semi": true,
   "singleQuote": true,
   "quoteProps": "preserve",
-  "bracketSpacing": true
+  "bracketSpacing": true,
+  "embeddedLanguageFormatting": "auto",
+  "singleAttributePerLine": true
 }
