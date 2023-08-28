@@ -5,6 +5,9 @@
 - アイデア出し FigJam
   - https://www.figma.com/file/PcW4M6yIMQ8G4a1K3WtiuI/%E7%84%A1%E9%A1%8C?type=whiteboard&node-id=0%3A1&t=wmRuH46h41abKekE-1
 
+- プロダクトバックログ
+  - https://github.com/orgs/jigintern/projects/3/views/1
+
 ## メンバー
 
 - あいす
