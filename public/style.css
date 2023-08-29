@@ -1,11 +1,11 @@
 :root {
-  --primary: #fff;
-  --primary-focused: #fff;
-  --secondary: #fff;
-  --secondary-focused: #fff;
-  --accent: #fff;
-  --background: #fff;
-  --border: #fff;
-  --text: #fff;
-  --caution: #fff;
+  --primary: #22c55e;
+  --primary-focused: #16a34a;
+  --secondary: #86efac;
+  --secondary-focused: #4ade80;
+  --accent: #84cc16;
+  --background: #f0fdf4;
+  --border: #15803d;
+  --text: #252525;
+  --caution: #dc2626;
 }
