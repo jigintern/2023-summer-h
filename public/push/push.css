@@ -1,3 +1,71 @@
 div.push {
-  background-color: lemonchiffon;
+  width: 100%;
+  height: 100%;
+  padding: 24px 48px 0 48px;
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  background: var(--color-background);
+}
+
+.stamp {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  background-color: gray;
+}
+
+#img {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center center;
+}
+
+.stamp input {
+  display: none;
+}
+
+form label {
+  display: block;
+}
+
+form input {
+  display: block;
+  border: 2px solid #aaa;
+  border-radius: 4px;
+  padding: 6px 4px;
+  width: 100%;
+  outline: none;
+}
+
+form input:focus {
+  border-color: var(--color-primary-focused);
+}
+
+form {
+  width: 100%;
+  margin-top: 32px;
+}
+
+form div {
+  margin-bottom: 16px;
+}
+
+.button {
+  margin-top: 32px;
+  padding: 12px 0px;
+  border-radius: 6px;
+  background-color: var(--color-primary);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.button:active {
+  background-color: var(--color-primary-focused);
 }
