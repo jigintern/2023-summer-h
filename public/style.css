@@ -1,11 +1,11 @@
 :root {
-  --primary: #22c55e;
-  --primary-focused: #16a34a;
-  --secondary: #86efac;
-  --secondary-focused: #4ade80;
-  --accent: #84cc16;
-  --background: #f0fdf4;
-  --border: #15803d;
-  --text: #252525;
-  --caution: #dc2626;
+  --color-primary: #22c55e;
+  --color-primary-focused: #16a34a;
+  --color-secondary: #86efac;
+  --color-secondary-focused: #4ade80;
+  --color-accent: #84cc16;
+  --color-background: #f0fdf4;
+  --color-border: #15803d;
+  --color-text: #252525;
+  --color-caution: #dc2626;
 }
