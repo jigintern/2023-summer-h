@@ -27,6 +27,15 @@ serve(async (req) => {
     return new Response(JSON.stringify(res.data[0].message));
   }
 
+  //スタンプ帳登録
+  if (req.method === 'POST' && pathname === '/newnote') {
+    const json=await req.json();
+    const user_id=json.user_id;
+    const title=json.title;
+    const result=await supabase.from('notes').insert({user_id:user_id, title:title}).select();
+    return new Response(result.data[0].id);
+  }
+
   return serveDir(req, {
     fsRoot: 'public',
     urlRoot: '',
