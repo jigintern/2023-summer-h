@@ -93,6 +93,25 @@ serve(async (req) => {
     return new Response(JSON.stringify(res.data), { status: 201 });
   }
 
+  if (req.method === 'POST' && pathname === '/users/signin') {
+    const reader = req.body?.getReader();
+    let buf = '';
+    while (true) {
+      const tmp = await reader.read();
+      buf += decoder.decode(tmp?.value);
+      if (tmp.done) break;
+    }
+    const body = JSON.parse(buf);
+
+    const res = await supabase.auth.signInWithPassword({
+      email: body.email,
+      password: body.password,
+    });
+
+    if (res.error) return new Response(res.error, { status: 400 });
+    return new Response(JSON.stringify(res.data), { status: 200 });
+  }
+
   // TODO: 実装
   // if (pathname === '/users/icon') {
   //   const iconUrl = new URL(req.url).searchParams.get('iconUrl');

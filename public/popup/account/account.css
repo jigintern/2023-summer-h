@@ -16,6 +16,18 @@ div.account button {
   background-color: var(--color-primary);
 }
 
+div.account span.error{
+  width: 100%;
+  padding: 8px;
+  border: 2px solid var(--color-caution);
+  border-radius: 8px;
+  display: none;
+  /* メッセージボックス感がほしいので白背景にします */
+  background-color: white;
+  color: var(--color-caution);
+  font-size: 12px;
+}
+
 div.account > details.signin > div.inner-signin {
   display: flex;
   flex-direction: column;
@@ -28,18 +40,6 @@ div.account > details.signup > div.inner-signup {
   flex-direction: column;
   align-items: center;
   gap: 8px
-}
-
-div.account > details.signup > div.inner-signup > span.error{
-  width: 100%;
-  padding: 8px;
-  border: 2px solid var(--color-caution);
-  border-radius: 8px;
-  display: none;
-  /* メッセージボックス感がほしいので白背景にします */
-  background-color: white;
-  color: var(--color-caution);
-  font-size: 12px;
 }
 
 div.account > details.signup > div.inner-signup > button#iconImageSelect {

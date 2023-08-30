@@ -2,11 +2,66 @@ import { Base256B } from 'https://code4fukui.github.io/Base256B/Base256B.js';
 
 export const init = function () {
   const overlay = document.querySelector('div.overlay');
-  const errorSpan = document.querySelector('span.error');
+  const signinErrorSpan = document.querySelector('div.inner-signin>span.error');
+  const signupErrorSpan = document.querySelector('div.inner-signup>span.error');
   const accountPop = document.querySelector('div.account');
   accountPop.addEventListener('click', (ev) => {
     ev.stopPropagation();
   });
+
+  document
+    .querySelector('button#signin')
+    .addEventListener('click', async (ev) => {
+      ev.target.setAttribute('disabled', 'true');
+
+      const email = document.querySelector('input#signin-email').value;
+      let password = document.querySelector('input#signin-password').value;
+
+      if (!email || !password) {
+        signinErrorSpan.style.display = 'block';
+        signinErrorSpan.textContent = '未入力の項目があります';
+        ev.target.removeAttribute('disabled');
+        return;
+      } else {
+        signinErrorSpan.style.display = 'none';
+        signinErrorSpan.textContent = '';
+      }
+
+      for (let i = 0; i < 10000; i++) {
+        password = await digest(password);
+      }
+
+      const body = {
+        email: email,
+        password: password,
+      };
+
+      const decoder = new TextDecoder();
+      const res = await fetch('/users/signin', {
+        method: 'POST',
+        body: JSON.stringify(body),
+      });
+
+      const reader = res.body.getReader();
+      let buf = '';
+      while (true) {
+        const tmp = await reader.read();
+        buf += decoder.decode(tmp?.value);
+        if (tmp.done) break;
+      }
+      if (res.status === 400) {
+        signinErrorSpan.style.display = 'block';
+        signinErrorSpan.textContent = buf;
+        ev.target.removeAttribute('disabled');
+        return;
+      }
+      const data = JSON.parse(buf);
+      window.sessionStorage.setItem('session', JSON.stringify(data.session));
+
+      ev.target.removeAttribute('disabled');
+      overlay.style.display = null;
+      overlay.innerHTML = '';
+    });
 
   const iconImageSelectButton = document.querySelector(
     'button#iconImageSelect'
@@ -30,16 +85,17 @@ export const init = function () {
     .addEventListener('click', async (ev) => {
       ev.target.setAttribute('disabled', 'true');
       const username = document.querySelector('input#username').value;
-      const email = document.querySelector('input#email').value;
-      let password = document.querySelector('input#password').value;
+      const email = document.querySelector('input#signup-email').value;
+      let password = document.querySelector('input#signup-password').value;
 
       if (!username || !email || !password) {
-        errorSpan.style.display = 'block';
-        errorSpan.textContent = '未入力の項目があります';
+        signupErrorSpan.style.display = 'block';
+        signupErrorSpan.textContent = '未入力の項目があります';
+        ev.target.removeAttribute('disabled');
         return;
       } else {
-        errorSpan.style.display = 'none';
-        errorSpan.textContent = '';
+        signupErrorSpan.style.display = 'none';
+        signupErrorSpan.textContent = '';
       }
 
       for (let i = 0; i < 10000; i++) {
@@ -67,8 +123,9 @@ export const init = function () {
         if (tmp.done) break;
       }
       if (res.status === 400) {
-        errorSpan.style.display = 'block';
-        errorSpan.textContent = buf;
+        signupErrorSpan.style.display = 'block';
+        signupErrorSpan.textContent = buf;
+        ev.target.removeAttribute('disabled');
         return;
       }
       const data = JSON.parse(buf);
