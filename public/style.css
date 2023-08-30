@@ -26,6 +26,7 @@ html,
 body {
   height: 100svh;
   width: 100%;
+  overflow: hidden;
 }
 
 header {
@@ -33,7 +34,12 @@ header {
   width: 100%;
   border-bottom: 2px solid var(--color-border);
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
+}
+
+header > button.account {
+  height: 48px;
+  width: 48px;
 }
 
 main {
@@ -47,4 +53,17 @@ footer {
   display: flex;
   justify-content: space-around;
   align-items: center;
+}
+
+div.overlay {
+  height: 100svh;
+  width: 100%;
+  background-color: black;
+  opacity: 0.6;
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  display: none;
+  place-content: center;
 }
