@@ -27,6 +27,19 @@ window.addEventListener('hashchange', router);
 
 router();
 
+// ユーザー関連の処理
+const isUserLoggedIn = function () {
+  const session = JSON.parse(window.sessionStorage.getItem('session'));
+  if (!session) return false;
+  const now = new Date().getTime() / 1000;
+  console.log(now, session?.expires_at);
+  return session?.expires_at > now;
+};
+const getUsername = function () {
+  const session = JSON.parse(window.sessionStorage.getItem('session'));
+  return session.user.user_metadata.username;
+};
+
 // ヘッダーのボタンの処理
 
 /**
@@ -39,6 +52,10 @@ overlay.addEventListener('click', () => {
 });
 
 const accountButton = document.querySelector('header>button.account');
+console.log(isUserLoggedIn());
+if (isUserLoggedIn()) {
+  accountButton.textContent = getUsername();
+}
 accountButton.addEventListener('click', async () => {
   overlay.style.display = 'grid';
   overlay.innerHTML = await (

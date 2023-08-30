@@ -1,6 +1,7 @@
 import { Base256B } from 'https://code4fukui.github.io/Base256B/Base256B.js';
 
 export const init = function () {
+  const accountButton = document.querySelector('header>button.account');
   const overlay = document.querySelector('div.overlay');
   const signinErrorSpan = document.querySelector('div.inner-signin>span.error');
   const signupErrorSpan = document.querySelector('div.inner-signup>span.error');
@@ -57,6 +58,7 @@ export const init = function () {
       }
       const data = JSON.parse(buf);
       window.sessionStorage.setItem('session', JSON.stringify(data.session));
+      accountButton.textContent = data.user.user_metadata.username;
 
       ev.target.removeAttribute('disabled');
       overlay.style.display = null;
@@ -130,6 +132,8 @@ export const init = function () {
       }
       const data = JSON.parse(buf);
       window.sessionStorage.setItem('session', JSON.stringify(data.session));
+      accountButton.textContent = data.user.user_metadata.username;
+
       ev.target.removeAttribute('disabled');
       overlay.style.display = null;
       overlay.innerHTML = '';
