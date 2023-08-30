@@ -27,6 +27,7 @@ body {
   height: 100svh;
   width: 100%;
   overflow: hidden;
+  font-family: 'M PLUS Rounded 1c', sans-serif;
 }
 
 header {
