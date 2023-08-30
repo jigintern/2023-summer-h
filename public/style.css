@@ -37,6 +37,11 @@ header {
   justify-content: space-between;
 }
 
+header > button.create-note {
+  height: 48px;
+  width: 48px;
+}
+
 header > button.account {
   height: 48px;
   width: 48px;
