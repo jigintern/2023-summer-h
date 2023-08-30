@@ -27,6 +27,36 @@ serve(async (req) => {
     return new Response(JSON.stringify(res.data[0].message));
   }
 
+  //スタンプ帳登録
+  if (req.method === 'POST' && pathname === '/newnote') {
+    const json=await req.json();
+    const user_id=json.user_id;
+    const title=json.title;
+    const result=await supabase.from('notes').insert({user_id:user_id, title:title}).select();
+    return new Response(result.data[0].id);
+  }
+
+  //スタンプ登録
+  if (req.method === 'POST' && pathname === '/newstamp') {
+    const json=await req.json();
+    const note_id=json.note_id;
+    const title=json.title;
+    const landmark=json.landmark;
+    const category=json.category;
+    const latitude=json.latitude;
+    const longitude=json.longitude;
+    
+    const result=await supabase.from('stamps').insert({
+      note_id:note_id,
+      title:title, 
+      landmark:landmark,
+      category:category,
+      latitude:latitude,
+      longitude:longitude
+    }).select();
+    return new Response()
+  }
+
   return serveDir(req, {
     fsRoot: 'public',
     urlRoot: '',
