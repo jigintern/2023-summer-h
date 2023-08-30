@@ -27,6 +27,7 @@ body {
   height: 100svh;
   width: 100%;
   overflow: hidden;
+  font-family: 'M PLUS Rounded 1c', sans-serif;
 }
 
 header {
@@ -35,6 +36,11 @@ header {
   border-bottom: 2px solid var(--color-border);
   display: flex;
   justify-content: space-between;
+}
+
+header > button.create-note {
+  height: 48px;
+  width: 48px;
 }
 
 header > button.account {
