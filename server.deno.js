@@ -51,6 +51,7 @@ serve(async (req) => {
     const category = json.category;
     const latitude = json.latitude;
     const longitude = json.longitude;
+    const url = json.url;
 
     const result = await supabase
       .from('stamps')
@@ -61,9 +62,12 @@ serve(async (req) => {
         category: category,
         latitude: latitude,
         longitude: longitude,
+        url: url,
       })
       .select();
-    return new Response();
+    if (result.error)
+      return new Response(JSON.stringify(result.error), { status: 400 });
+    return new Response(JSON.stringify(result.data), { status: 201 });
   }
 
   // スタンプ画像の登録
