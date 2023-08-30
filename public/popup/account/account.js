@@ -53,9 +53,8 @@ export const init = function () {
         password: password,
       };
 
-      let res;
       const decoder = new TextDecoder();
-      res = await fetch('/users/register', {
+      const res = await fetch('/users/register', {
         method: 'POST',
         body: JSON.stringify(body),
       });
