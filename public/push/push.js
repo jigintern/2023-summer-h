@@ -75,10 +75,5 @@ export const init = function () {
       if (stampPostRes.status === 400) {
         return;
       }
-
-      document.querySelector('#img').src = null;
-      titleInput.value = '';
-      landmarkInput.value = '';
-      categoryInput.value = '';
     });
 };
