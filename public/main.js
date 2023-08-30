@@ -1,5 +1,6 @@
 import * as push from './push/push.js';
 import * as viewer from './viewer/viewer.js';
+import * as account from './popup/account/account.js';
 
 const main = document.querySelector('main#main');
 
@@ -25,3 +26,23 @@ const router = async function () {
 window.addEventListener('hashchange', router);
 
 router();
+
+// ヘッダーのボタンの処理
+
+/**
+ * @type {HTMLDivElement}
+ */
+const overlay = document.querySelector('div.overlay');
+overlay.addEventListener('click', () => {
+  overlay.style.display = null;
+  overlay.innerHTML = '';
+});
+
+const accountButton = document.querySelector('header>button.account');
+accountButton.addEventListener('click', async () => {
+  overlay.style.display = 'grid';
+  overlay.innerHTML = await (
+    await fetch('./popup/account/account.html')
+  ).text();
+  account.init();
+});
