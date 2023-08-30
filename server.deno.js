@@ -66,6 +66,46 @@ serve(async (req) => {
     return new Response(JSON.stringify(res));
   }
 
+  //サジェスト取得
+  if (req.method === 'POST' && pathname === '/suggest') {
+    const json=await req.json();
+    const latitude=json.latitude;
+    const longitude=json.longitude;
+    const res=await supabase.from('stamps').select();
+
+    const arr=[];
+
+    res.data.forEach((e) => {
+      if(e.longitude==null||e.latitude==null)
+        return;
+
+      //緯度差経度差計算、メートル変換
+      const la=Math.abs(e.latitude-latitude)/0.0000090138;
+      const lo=Math.abs(e.longitude-longitude)/0.0000109544;
+      //直線距離計算、小数三桁のキロメートルに
+      const distance=Math.round(Math.sqrt(la*la+lo*lo))/1000;
+      //100m内は無視
+      // if(distance<0.1) return;
+      //20km外は無視
+      // if(distance>20) return;
+
+      //返却用配列作成
+      const obj=new Object();
+      obj.title=e.title;
+      obj.landmark=e.landmark;
+      obj.category=e.category;
+      obj.distance=distance;
+      arr.push(obj);
+    });
+    arr.sort((a,b)=>a.distance-b.distance);
+    console.log(arr);
+    
+    return new Response(JSON.stringify(arr));
+  }
+
+  
+
+
   return serveDir(req, {
     fsRoot: 'public',
     urlRoot: '',
