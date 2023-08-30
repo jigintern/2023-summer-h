@@ -28,10 +28,14 @@ div.viewer {
   padding: 12px;
 }
 
-.stamp {
+div.stamp {
   width: 86px;
   height: 86px;
   border-radius: 50%;
   background-color: lightgray;
-  margin-bottom: 16px;
+  margin-bottom: 12px;
+}
+
+.stamp p {
+  font-weight: bold;
 }
