@@ -1,3 +1,54 @@
 <div class="account">
   <p>ポップアップ</p>
+  <details
+    class="signin"
+    open
+  >
+    <summary>ログイン</summary>
+
+    <div class="inner-signin">
+      <input
+        type="email"
+        placeholder="メールアドレス"
+      />
+      <input
+        type="password"
+        placeholder="パスワード"
+      />
+      <button>ログイン</button>
+    </div>
+  </details>
+  <details class="signup">
+    <summary>新規登録</summary>
+
+    <div class="inner-signup">
+      <span class="error"></span>
+      <input
+        type="file"
+        name="input"
+        id="icon"
+        accept="image/png"
+        hidden
+      />
+      <button id="iconImageSelect">
+        <span>アイコン画像を選択</span>
+      </button>
+      <input
+        type="text"
+        id="username"
+        placeholder="ユーザー名"
+      />
+      <input
+        type="email"
+        id="email"
+        placeholder="メールアドレス"
+      />
+      <input
+        type="password"
+        id="password"
+        placeholder="パスワード"
+      />
+      <button id="register">登録</button>
+    </div>
+  </details>
 </div>
