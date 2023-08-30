@@ -57,6 +57,15 @@ serve(async (req) => {
     return new Response()
   }
 
+  //スタンプ帳取得
+  if (req.method === 'POST' && pathname === '/getnote') {
+    const json=await req.json();
+    const user_id=json.user_id;
+    const res=await supabase.from('notes').select().eq('user_id', user_id);
+    console.log(res);
+    return new Response(JSON.stringify(res));
+  }
+
   return serveDir(req, {
     fsRoot: 'public',
     urlRoot: '',
