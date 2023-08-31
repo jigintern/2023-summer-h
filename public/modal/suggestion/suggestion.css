@@ -34,3 +34,19 @@ div.open {
   margin-top: 36px;
   padding-left: 4px;
 }
+
+.note-scroll-box {
+  display: flex;
+  width: inherit;
+  overflow-x: auto;
+  margin-top: 36px;
+  padding-left: 4px;
+}
+
+.stamp-scroll-box {
+  display: flex;
+  width: inherit;
+  overflow-x: auto;
+  margin-top: 36px;
+  padding-left: 4px;
+}
