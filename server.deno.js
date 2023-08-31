@@ -90,7 +90,7 @@ serve(async (req) => {
 
       const createUrl = await supabase.storage
         .from('pictures')
-        .createSignedUrl(upload.data.path, 60);
+        .getPublicUrl(upload.data.path);
       if (createUrl.error)
         return new Response(JSON.stringify(createUrl.error, { status: 400 }));
 
@@ -214,7 +214,7 @@ serve(async (req) => {
 
       const createUrl = await supabase.storage
         .from('icons')
-        .getPublicUrl(upload.data.path, 60);
+        .getPublicUrl(upload.data.path);
       if (createUrl.error)
         return new Response(JSON.stringify(createUrl.error, { status: 400 }));
 
