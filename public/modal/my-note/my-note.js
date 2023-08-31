@@ -1,4 +1,4 @@
-import { createStampCard } from '../../components/card.js';
+import { createStampCard } from '../../images/components/card.js';
 
 function delay(n) {
   return new Promise(function (resolve) {

@@ -1,7 +1,7 @@
 import * as push from './push/push.js';
 import * as viewer from './viewer/viewer.js';
 import * as createNote from './popup/create-note/create-note.js';
-import * as suggestion from './modal/suggestion/suggestion.js';
+import * as suggestion from "./modal/suggestion/suggestion.js"
 import * as account from './popup/account/account.js';
 import { createGeneralPopup } from './popup/general-popup.js';
 
@@ -52,11 +52,16 @@ overlay.addEventListener('click', closeOverlay);
 
 const createNoteButton = document.querySelector('header>button.create-note');
 createNoteButton.addEventListener('click', async () => {
-  overlay.style.display = 'grid';
+  /* overlay.style.display = 'grid';
   overlay.innerHTML = await (
     await fetch('./popup/create-note/create-note.html')
   ).text();
-  createNote.init();
+  createNote.init();*/
+  overlay.style.display = 'grid';
+  overlay.innerHTML = await (
+    await fetch('./modal/suggestion/suggestion.html')
+  ).text();
+  await suggestion.show();
 });
 
 const accountButton = document.querySelector('header>button.account');
@@ -115,22 +120,25 @@ if (isUserLoggedIn()) {
   accountButton.click();
 }
 
-const clearOldNoteId = async ()=>{
-  const note_id=localStorage.getItem('note_id');
-  if(!note_id)
-    return;
-  const response=await fetch('/getnote?note_id='+note_id);
-  const json=await response.json();
+const clearOldNoteId = async () => {
+  const note_id = localStorage.getItem('note_id');
+  if (!note_id) return;
+  const response = await fetch('/getnote?note_id=' + note_id);
+  const json = await response.json();
 
-  if (json[0]==null) {
+  if (json[0] == null) {
     localStorage.removeItem('note_id');
     return;
   }
 
-  const targetDate=new Date(json[0].created_at)
-  const nowDate=new Date()
+  const targetDate = new Date(json[0].created_at);
+  const nowDate = new Date();
 
-  if(targetDate.getDate()!=nowDate.getDate()||targetDate.getMonth()!=nowDate.getMonth()||targetDate.getFullYear()!=nowDate.getFullYear())
+  if (
+    targetDate.getDate() != nowDate.getDate() ||
+    targetDate.getMonth() != nowDate.getMonth() ||
+    targetDate.getFullYear() != nowDate.getFullYear()
+  )
     localStorage.removeItem('note_id');
 };
 clearOldNoteId();

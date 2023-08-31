@@ -18,8 +18,8 @@ form label {
 form input {
   display: block;
   border: 2px solid var(--color-border);
-  border-radius: 4px;
-  padding: 6px 4px;
+  border-radius: 8px;
+  padding: 6px;
   width: 100%;
   outline: none;
 }
