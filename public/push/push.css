@@ -8,6 +8,19 @@ div.push {
   background: var(--color-background);
 }
 
+div.push span.error {
+  width: 100%;
+  margin-top: 16px;
+  padding: 8px;
+  border: 2px solid var(--color-caution);
+  border-radius: 8px;
+  display: none;
+  /* メッセージボックス感がほしいので白背景にします */
+  background-color: white;
+  color: var(--color-caution);
+  font-size: 12px;
+}
+
 div.push h2 {
   width: 100%;
   text-align: left;

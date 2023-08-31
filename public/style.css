@@ -81,6 +81,9 @@ body > .svg-defs {
 
 main {
   height: calc(100svh - var(--header-footer-height) * 2);
+  overflow-x: hidden;
+  overflow-y: scroll;
+  background-color: var(--color-background)
 }
 
 footer {

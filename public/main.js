@@ -36,9 +36,12 @@ router();
  * @type {HTMLDivElement}
  */
 const overlay = document.querySelector('div.overlay');
-export const closeOverlay = function () {
+export const closeOverlay = function (attachOnClick) {
   overlay.style.display = null;
   overlay.innerHTML = '';
+  if (attachOnClick) {
+    overlay.addEventListener('click', closeOverlay);
+  }
 };
 export const showOverlay = function (child, preventOverlayClose) {
   overlay.style.display = 'grid';
