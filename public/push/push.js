@@ -20,6 +20,13 @@ export const init = function () {
       image = reader.result;
     };
     reader.readAsDataURL(file);
+
+    navigator.geolocation.getCurrentPosition(async (position) => {
+      landmarkInput.value = await getPlaceName(
+        position.coords.latitude,
+        position.coords.longitude
+      );
+    });
   });
 
   document
@@ -95,4 +102,17 @@ export const init = function () {
         document.querySelector('#img').removeAttribute('src');
       });
     });
+};
+
+/**
+ * OSMのAPIから場所情報を取得する関数
+ * @param {number} latitude
+ * @param {number} longitude
+ */
+const getPlaceName = async function (latitude, longitude) {
+  const url = `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json&zoom=14`;
+  const res = await fetch(url);
+  const data = JSON.parse(await res.text());
+  const [suburb, city] = data.display_name.split(', ').slice(0, 2);
+  return `${suburb}, ${city}`;
 };
