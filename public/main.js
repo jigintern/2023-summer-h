@@ -110,3 +110,23 @@ if (isUserLoggedIn()) {
   window.sessionStorage.removeItem('session');
   accountButton.click();
 }
+
+const clearOldNoteId = async ()=>{
+  const note_id=localStorage.getItem('note_id');
+  if(!note_id)
+    return;
+  const response=await fetch('/getnote?note_id='+note_id);
+  const json=await response.json();
+
+  if (json[0]==null) {
+    localStorage.removeItem('note_id');
+    return;
+  }
+
+  const targetDate=new Date(json[0].created_at)
+  const nowDate=new Date()
+
+  if(targetDate.getDate()!=nowDate.getDate()||targetDate.getMonth()!=nowDate.getMonth()||targetDate.getFullYear()!=nowDate.getFullYear())
+    localStorage.removeItem('note_id');
+};
+clearOldNoteId();
