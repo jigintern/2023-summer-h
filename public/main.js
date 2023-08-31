@@ -14,7 +14,7 @@ const router = async function () {
   switch (hash) {
     case 'viewer':
       main.innerHTML = await (await fetch('./viewer/viewer.html')).text();
-      viewer.init();
+      await viewer.init();
       break;
     case 'push':
       main.innerHTML = await (await fetch('./push/push.html')).text();
@@ -115,22 +115,25 @@ if (isUserLoggedIn()) {
   accountButton.click();
 }
 
-const clearOldNoteId = async ()=>{
-  const note_id=localStorage.getItem('note_id');
-  if(!note_id)
-    return;
-  const response=await fetch('/getnote?note_id='+note_id);
-  const json=await response.json();
+const clearOldNoteId = async () => {
+  const note_id = localStorage.getItem('note_id');
+  if (!note_id) return;
+  const response = await fetch('/getnote?note_id=' + note_id);
+  const json = await response.json();
 
-  if (json[0]==null) {
+  if (json[0] == null) {
     localStorage.removeItem('note_id');
     return;
   }
 
-  const targetDate=new Date(json[0].created_at)
-  const nowDate=new Date()
+  const targetDate = new Date(json[0].created_at);
+  const nowDate = new Date();
 
-  if(targetDate.getDate()!=nowDate.getDate()||targetDate.getMonth()!=nowDate.getMonth()||targetDate.getFullYear()!=nowDate.getFullYear())
+  if (
+    targetDate.getDate() != nowDate.getDate() ||
+    targetDate.getMonth() != nowDate.getMonth() ||
+    targetDate.getFullYear() != nowDate.getFullYear()
+  )
     localStorage.removeItem('note_id');
 };
 clearOldNoteId();

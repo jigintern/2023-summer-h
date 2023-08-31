@@ -3,7 +3,7 @@ import { createGeneralPopup, createLoading } from '../popup/general-popup.js';
 
 let image = undefined;
 
-export const init = function () {
+export const init = async function () {
   const overlay = document.querySelector('div.overlay');
 
   const titleInput = document.querySelector('div.push input[name="title"]');
@@ -11,8 +11,16 @@ export const init = function () {
     'div.push input[name="landmark"]'
   );
   const categoryInput = document.querySelector(
-    'div.push input[name="category"]'
+    'div.push select[name="category"]'
   );
+
+  const categories = JSON.parse(await (await fetch('/categories')).text());
+  categories.forEach((item) => {
+    const option = document.createElement('option');
+    option.textContent = item.category;
+    categoryInput.appendChild(option);
+  });
+
   document.querySelector('#picker').addEventListener('change', (event) => {
     const file = event.target.files[0];
     if (!file) return;
@@ -73,7 +81,7 @@ export const init = function () {
       // 位置情報を取得
       navigator.geolocation.getCurrentPosition(async (position) => {
         // スタンプの登録
-        const note_id=localStorage.getItem('note_id');
+        const note_id = localStorage.getItem('note_id');
         const stampPostRes = await fetch('/newstamp', {
           method: 'POST',
           body: JSON.stringify({
