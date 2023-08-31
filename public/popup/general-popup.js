@@ -10,3 +10,15 @@ export const createGeneralPopup = function (message) {
 
   return popupElement;
 };
+
+export const createLoading = function () {
+  const loadingElement = document.createElement('div');
+  loadingElement.style.width = '40px';
+  loadingElement.style.height = '40px';
+  loadingElement.style.borderRadius = '40px';
+  loadingElement.style.border = '8px solid var(--color-accent)';
+  loadingElement.style.borderTopColor = 'transparent';
+  loadingElement.style.animation = 'circle 1s linear infinite';
+  loadingElement.style.webkitAnimation = 'circle 1s linear infinite';
+  return loadingElement;
+};

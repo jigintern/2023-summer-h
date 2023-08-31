@@ -35,10 +35,19 @@ router();
  * @type {HTMLDivElement}
  */
 const overlay = document.querySelector('div.overlay');
-overlay.addEventListener('click', () => {
+export const closeOverlay = function () {
   overlay.style.display = null;
   overlay.innerHTML = '';
-});
+};
+export const showOverlay = function (child, preventOverlayClose) {
+  overlay.style.display = 'grid';
+  overlay.innerHTML = '';
+  overlay.appendChild(child);
+  if (preventOverlayClose) {
+    overlay.removeEventListener('click', closeOverlay);
+  }
+};
+overlay.addEventListener('click', closeOverlay);
 
 const createNoteButton = document.querySelector('header>button.create-note');
 createNoteButton.addEventListener('click', async () => {
