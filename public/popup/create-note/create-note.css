@@ -53,3 +53,15 @@ form div {
 .button:active {
   background-color: var(--color-primary-focused);
 }
+
+div.create-note span.error{
+  width: 100%;
+  padding: 8px;
+  border: 2px solid var(--color-caution);
+  border-radius: 8px;
+  display: none;
+  background-color: white;
+  color: var(--color-caution);
+  font-size: 12px;
+  margin: 5px 0px;
+}
