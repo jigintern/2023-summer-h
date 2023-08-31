@@ -2,7 +2,7 @@ import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 import * as dotenv from 'https://deno.land/std@0.167.0/dotenv/mod.ts';
 import { serve } from 'https://deno.land/std@0.151.0/http/server.ts';
 import { serveDir } from 'https://deno.land/std@0.151.0/http/file_server.ts';
-import { Base256B } from 'https://code4fukui.github.io/Base256B/Base256B.js';
+import { decode } from 'https://deno.land/std@0.200.0/encoding/base64.ts';
 
 await dotenv.config({
   export: true,
@@ -51,6 +51,7 @@ serve(async (req) => {
     const category = json.category;
     const latitude = json.latitude;
     const longitude = json.longitude;
+    const url = json.url;
 
     const result = await supabase
       .from('stamps')
@@ -61,11 +62,43 @@ serve(async (req) => {
         category: category,
         latitude: latitude,
         longitude: longitude,
+        url: url,
       })
       .select();
-    return new Response();
+    if (result.error)
+      return new Response(JSON.stringify(result.error), { status: 400 });
+    return new Response(JSON.stringify(result.data), { status: 201 });
   }
 
+  // スタンプ画像の登録
+  if (pathname === '/stamp-image') {
+    if (req.method === 'POST') {
+      const json = await req.json();
+
+      const tmp = json.file.split(';')[0];
+      const extension = tmp.split('/')[1];
+      const buffer = decode(json.file.replace(/^.*,/, ''));
+      const fileName = crypto.randomUUID() + '.' + extension;
+
+      const file = new File([buffer], fileName, { type: 'image/' + extension });
+      const upload = await supabase.storage
+        .from('pictures')
+        .upload(fileName, file, { contentType: 'image/' + extension });
+      if (upload.error)
+        return new Response(JSON.stringify(upload.error, { status: 400 }));
+
+      const createUrl = await supabase.storage
+        .from('pictures')
+        .createSignedUrl(upload.data.path, 60);
+      if (createUrl.error)
+        return new Response(JSON.stringify(createUrl.error, { status: 400 }));
+
+      return new Response(JSON.stringify(createUrl.data));
+    }
+    return new Response('Method not allowed', { status: 405 });
+  }
+
+  // ユーザー新規登録
   if (req.method === 'POST' && pathname === '/users/register') {
     const reader = req.body?.getReader();
     let buf = '';
@@ -93,6 +126,7 @@ serve(async (req) => {
     return new Response(JSON.stringify(res.data), { status: 201 });
   }
 
+  // ユーザーログイン
   if (req.method === 'POST' && pathname === '/users/signin') {
     const reader = req.body?.getReader();
     let buf = '';
