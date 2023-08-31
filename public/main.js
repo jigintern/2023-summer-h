@@ -69,20 +69,24 @@ accountButton.addEventListener('click', async () => {
 });
 
 // ユーザー関連の関数
-const isUserLoggedIn = function () {
+export const isUserLoggedIn = function () {
   const session = JSON.parse(window.sessionStorage.getItem('session'));
   if (!session) return false;
   const now = new Date().getTime() / 1000;
   // console.log(now, session?.expires_at);
   return session?.expires_at > now;
 };
-const getUsername = function () {
+export const getUsername = function () {
   const session = JSON.parse(window.sessionStorage.getItem('session'));
   return session.user.user_metadata.username;
 };
+export const getUserIconUrl = function () {
+  const session = JSON.parse(window.sessionStorage.getItem('session'));
+  return session.user.user_metadata.iconurl;
+};
 
 if (isUserLoggedIn()) {
-  accountButton.textContent = getUsername();
+  accountButton.style.backgroundImage = `url(${getUserIconUrl()}`;
   if (window.localStorage.getItem('geolocation-enabled') !== 'true') {
     if ('geolocation' in navigator) {
       overlay.style.display = 'grid';
