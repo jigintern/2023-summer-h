@@ -164,13 +164,13 @@ serve(async (req) => {
       .gt('latitude', latitude-0.0045069).lt('latitude', latitude+0.0045069)
       .gt('longitude', longitude-0.0054772).lt('longitude', longitude+0.0054772);
 
-    const arr=[];
+    const tmp=[];
     res.data.forEach((em)=>{
-      if(!arr.includes(em.note_id))
-        arr.push(em.note_id);
+        tmp.push(em.note_id);
     });
-    arr.sort((a,b)=>b-a);
-    
+    tmp.sort((a,b)=>b-a);
+    const arr=[...new Set(tmp)];
+
     const noteRes=await supabase.from('notes').select().in('id', arr);
     console.log(noteRes.data);
 
