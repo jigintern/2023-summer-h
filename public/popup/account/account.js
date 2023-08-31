@@ -1,3 +1,5 @@
+import { isUserLoggedIn } from '../../main.js';
+
 let iconImage = undefined;
 
 export const init = function () {
@@ -9,6 +11,12 @@ export const init = function () {
   accountPop.addEventListener('click', (ev) => {
     ev.stopPropagation();
   });
+
+  if (isUserLoggedIn()) {
+    document.querySelector('details.signin').style.display = 'none';
+    document.querySelector('details.signup').style.display = 'none';
+    document.querySelector('div.signout').style.display = 'flex';
+  }
 
   document
     .querySelector('button#signin')
@@ -153,6 +161,14 @@ export const init = function () {
       ev.target.removeAttribute('disabled');
       overlay.style.display = null;
       overlay.innerHTML = '';
+    });
+
+  document
+    .querySelector('button.signout-button')
+    .addEventListener('click', () => {
+      window.sessionStorage.removeItem('session');
+      window.localStorage.removeItem('note_id');
+      location.href = '/';
     });
 };
 
