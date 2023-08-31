@@ -8,3 +8,58 @@ div.account {
   ;
 }
 
+div.account button {
+  height: 24px;
+  padding: 0 12px;
+  border: 2px solid var(--color-border);
+  border-radius: 12px;
+  background-color: var(--color-primary);
+}
+
+div.account span.error{
+  width: 100%;
+  padding: 8px;
+  border: 2px solid var(--color-caution);
+  border-radius: 8px;
+  display: none;
+  /* メッセージボックス感がほしいので白背景にします */
+  background-color: white;
+  color: var(--color-caution);
+  font-size: 12px;
+}
+
+div.account > details.signin > div.inner-signin {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px
+}
+
+div.account > details.signup > div.inner-signup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px
+}
+
+div.account > details.signup > div.inner-signup > button#iconImageSelect {
+  width: 200px;
+  height: 200px;
+  border-radius: 100vh;
+  padding: 0;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  background-image: url(/images/default-user.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+div.account > details.signup > div.inner-signup > button#iconImageSelect > span {
+  width: 100%;
+  padding-bottom: 10px;
+  color: white;
+  line-height: 40px;
+  background-color: rgba(0, 0, 0, .8);
+}
