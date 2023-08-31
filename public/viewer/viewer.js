@@ -1,48 +1,33 @@
 import { createNoteCard } from '../components/card.js';
 import * as myNote from '../modal/my-note/my-note.js';
 
-export const init = function () {
+export const init = async function () {
   const overlay = document.querySelector('div.overlay');
   const grid = document.querySelector('div.grid');
 
-  const dummyNotes = [
-    {
-      note_id: 0,
-      title: '奈良旅行１日目',
-      url: null,
-      createdAt: '2022/01/10',
-    },
-    {
-      note_id: 1,
-      title: '奈良旅行2日目',
-      url: null,
-      createdAt: '2022/01/11',
-    },
-    {
-      note_id: 2,
-      title: '奈良旅行3日目',
-      url: null,
-      createdAt: '2022/01/12',
-    },
-    {
-      note_id: 3,
-      title: '奈良旅行4日目',
-      url: null,
-      createdAt: '2022/01/13',
-    },
-  ];
+  const user_id=JSON.parse(window.sessionStorage.getItem("session"))?.user.id;
+  const data={user_id:user_id};
+  const params={
+      method:'POST',
+      body:JSON.stringify(data)
+  };
+  const response=await fetch('/getnotes', params);
+  const notesJson=await response.json();
 
-  dummyNotes.forEach((item) => {
+  notesJson.data.forEach((note) => {
+    const date=new Date(note.created_at).getFullYear()+'/'
+      +new Date(note.created_at).getMonth()+'/'
+      +new Date(note.created_at).getDay();
     const noteCard = createNoteCard(
-      item.url,
-      item.title,
-      item.createdAt,
+      note.url,
+      note.title,
+      date,
       async () => {
         overlay.style.display = 'grid';
         overlay.innerHTML = await (
           await fetch('./modal/my-note/my-note.html')
         ).text();
-        myNote.init();
+        myNote.init(note.title, note.id);
       }
     );
     grid.appendChild(noteCard);

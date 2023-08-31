@@ -6,7 +6,7 @@ function delay(n) {
   });
 }
 
-export const init = async function () {
+export const init = async function (title, note_id) {
   const myNote = document.querySelector('div.my-note');
   myNote.addEventListener('click', (ev) => {
     ev.stopPropagation();
@@ -15,38 +15,15 @@ export const init = async function () {
   myNote.classList.add('active');
 
   const stampScrollBox = document.querySelector('div.stamp-scroll-box');
-  document.querySelector('div.title').innerHTML = '<h3>奈良旅行1日目</h3>';
+  document.querySelector('div.title').innerHTML = '<h3>'+title+'</h3>';
 
-  const dummyStamps = [
-    {
-      note_id: 0,
-      title: '東大寺',
-      url: null,
-      createdAt: '17:25',
-    },
-    {
-      note_id: 0,
-      title: '西大寺',
-      url: null,
-      createdAt: '17:55',
-    },
-    {
-      note_id: 0,
-      title: '南大寺',
-      url: null,
-      createdAt: '18:25',
-    },
-    {
-      note_id: 0,
-      title: '北大寺',
-      url: null,
-      createdAt: '18:55',
-    },
-  ];
+  const response=await fetch('/getstamps?note_id='+note_id);
+  const stampsJson=await response.json();
 
-  dummyStamps.forEach((item) => {
-    console.log(item);
-    const stampCard = createStampCard(item.url, item.title, item.createdAt);
+  stampsJson.forEach((stamp) => {
+    const date=new Date(stamp.created_at).getMonth()+'/'
+      +new Date(stamp.created_at).getDay();
+    const stampCard = createStampCard(stamp.url, stamp.title, date);
     stampScrollBox.appendChild(stampCard);
   });
 };
