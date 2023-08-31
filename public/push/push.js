@@ -67,16 +67,17 @@ export const init = function () {
         closeOverlay();
         return;
       }
-      const imageUrl = JSON.parse(buf).signedUrl;
+      const imageUrl = JSON.parse(buf).publicUrl;
       console.log(imageUrl);
 
       // 位置情報を取得
       navigator.geolocation.getCurrentPosition(async (position) => {
         // スタンプの登録
+        const note_id=localStorage.getItem('note_id');
         const stampPostRes = await fetch('/newstamp', {
           method: 'POST',
           body: JSON.stringify({
-            note_id: 1,
+            note_id: note_id,
             title: titleInput.value,
             landmark: landmarkInput.value,
             category: categoryInput.value,

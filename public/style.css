@@ -60,8 +60,16 @@ header > img {
 }
 
 header > button.account {
-  height: 48px;
-  width: 48px;
+  height: 40px;
+  width: 40px;
+  margin: 4px;
+  border: 2px solid var(--color-border);
+  border-radius: 40px;
+  background-image: url(./images/default-user.png);
+  background-size: cover;
+  background-position: center;
+  display: grid;
+  place-content: center;
 }
 
 /* SVGアイコン定義コンテナクラス */
