@@ -19,6 +19,7 @@ const decoder = new TextDecoder();
 
 serve(async (req) => {
   const pathname = new URL(req.url).pathname;
+  const url=new URL(req.url);
   console.log(pathname);
 
   if (req.method === 'GET' && pathname === '/welcome-message') {
@@ -177,6 +178,13 @@ serve(async (req) => {
     return new Response(JSON.stringify(noteRes.data));
   }
 
+  //スタンプ取得
+  if (req.method === 'GET' && pathname === '/getstamps') {
+    const note_id=url.searchParams.get('note_id');
+    const res=await supabase.from('stamps').select().eq('note_id', note_id);
+    console.log(res.data);
+    return new Response(JSON.stringify(res.data));
+  }
 
   // TODO: 実装
   // if (pathname === '/users/icon') {
