@@ -37,6 +37,20 @@ form label {
   display: block;
 }
 
+form input, select {
+  display: block;
+  border: 2px solid var(--color-border);
+  border-radius: 4px;
+  padding: 6px 4px;
+  width: 100%;
+  outline: none;
+  background-color: white;
+}
+
+form input:focus {
+  border-color: var(--color-primary-focused);
+}
+
 form {
   margin-top: 32px;
 }

@@ -31,6 +31,17 @@ serve(async (req) => {
     return new Response(JSON.stringify(res.data[0].message));
   }
 
+  // スタンプのカテゴリを取得
+  if (pathname === '/categories') {
+    if (req.method === 'GET') {
+      const res = await supabase.from('category').select();
+      if (res.error)
+        return new Response(JSON.stringify(res.error), { status: 500 });
+      return new Response(JSON.stringify(res.data));
+    }
+    return new Response('Method not allowed', { status: 405 });
+  }
+
   //スタンプ帳登録
   if (req.method === 'POST' && pathname === '/newnote') {
     const json = await req.json();
