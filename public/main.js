@@ -50,6 +50,16 @@ export const showOverlay = function (child, preventOverlayClose) {
 };
 overlay.addEventListener('click', closeOverlay);
 
+// サジェストモーダル確認用にロゴを使用
+const suggestionButton = document.querySelector('header>img');
+suggestionButton.addEventListener('click', async () => {
+  overlay.style.display = 'grid';
+  overlay.innerHTML = await (
+    await fetch('./modal/suggestion/suggestion.html')
+  ).text();
+  await suggestion.show();
+});
+
 const createNoteButton = document.querySelector('header>button.create-note');
 createNoteButton.addEventListener('click', async () => {
   overlay.style.display = 'grid';
