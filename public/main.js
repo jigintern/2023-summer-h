@@ -1,6 +1,7 @@
 import * as push from './push/push.js';
 import * as viewer from './viewer/viewer.js';
 import * as createNote from './popup/create-note/create-note.js';
+import * as suggestion from './modal/suggestion/suggestion.js';
 import * as account from './popup/account/account.js';
 
 const main = document.querySelector('main#main');
@@ -41,11 +42,16 @@ overlay.addEventListener('click', () => {
 
 const createNoteButton = document.querySelector('header>button.create-note');
 createNoteButton.addEventListener('click', async () => {
-  overlay.style.display = 'grid';
+  /* overlay.style.display = 'grid';
   overlay.innerHTML = await (
     await fetch('./popup/create-note/create-note.html')
   ).text();
-  createNote.init();
+  createNote.init();*/
+  overlay.style.display = 'grid';
+  overlay.innerHTML = await (
+    await fetch('./modal/suggestion/suggestion.html')
+  ).text();
+  await suggestion.show();
 });
 
 const accountButton = document.querySelector('header>button.account');
