@@ -15,6 +15,7 @@ div.suggestion {
 
 h3 {
   text-align: left;
+  margin-bottom: 12px;
 }
 
 div.active {
@@ -32,32 +33,4 @@ div.open {
   overflow-x: auto;
   margin-top: 36px;
   padding-left: 4px;
-}
-
-.scroll-box li {
-  list-style-type: none;
-  background-color: #fff;
-  border: 0.5px solid var(--color-border);
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
-  border-radius: 12px;
-  padding: 12px 16px;
-  margin: 0 12px 24px 0;
-  text-align: center;
-}
-
-div.stamp {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  background-color: lightgray;
-}
-
-.title {
-  font-weight: bold;
-  font-size: small;
-}
-
-.by {
-  font-size: x-small;
-  color: gray;
 }
