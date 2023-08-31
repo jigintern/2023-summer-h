@@ -51,7 +51,7 @@ form div {
 }
 
 .button:active {
-  background-color: var(--color-primary-focused);
+  background-color: var(--color-primary);
 }
 
 div.create-note span.error{

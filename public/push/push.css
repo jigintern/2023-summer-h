@@ -48,7 +48,7 @@ form input, select {
 }
 
 form input:focus {
-  border-color: var(--color-primary-focused);
+  border-color: var(--color-primary);
 }
 
 form {
