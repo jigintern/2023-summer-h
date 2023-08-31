@@ -65,7 +65,7 @@ div.account > details.signup > div.inner-signup > button#iconImageSelect > span 
 }
 
 div.account > div.signout {
-  display: flex;
+  display: none;
   flex-direction: column;
   align-items: center;
 }
