@@ -3,7 +3,7 @@ div.suggestion {
   bottom: -120%;
   left: 0;
   width: 100%;
-  height: 48vh;
+  height: 72vh;
   display: flex;
   flex-flow: column;
   align-items: flex-start;
@@ -18,6 +18,11 @@ h3 {
 }
 
 div.active {
+  bottom: -30%;
+  transition: all 0.4s;
+}
+
+div.open {
   bottom: 0;
 }
 
@@ -35,7 +40,6 @@ div.active {
   border: 0.5px solid var(--color-border);
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
   border-radius: 12px;
-  height: 196px;
   padding: 12px 16px;
   margin: 0 12px 24px 0;
   text-align: center;
