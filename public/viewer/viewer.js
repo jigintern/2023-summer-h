@@ -1,4 +1,4 @@
-import { createNoteCard } from '../images/components/card.js';
+import { createNoteCard } from '../components/card.js';
 import * as myNote from '../modal/my-note/my-note.js';
 
 export const init = function () {
