@@ -39,13 +39,36 @@ header {
 }
 
 header > button.create-note {
-  height: 48px;
-  width: 48px;
+  height: 40px;
+  width: 40px;
+  margin: 4px;
+  border: none;
+  background-color: white;
+  display: grid;
+  place-content: center;
+}
+
+header > button.create-note .icon-new-note {
+  width: 32px;
+  height: 32px;
+  fill: var(--color-primary-focused)
+}
+
+header > img {
+  margin-block: 2px;
+  height: 44px;
 }
 
 header > button.account {
   height: 48px;
   width: 48px;
+}
+
+/* SVGアイコン定義コンテナクラス */
+body > .svg-defs {
+  width: 0;
+  height: 0;
+  display: none;
 }
 
 main {
@@ -71,4 +94,14 @@ div.overlay {
 
   display: none;
   place-content: center;
+}
+
+/* ローディングアニメーション */
+@keyframes circle{
+  0%{transform:rotate(0deg)}
+  100%{transform:rotate(360deg)}
+}
+@-webkit-keyframes circle{
+  0%{-webkit-transform:rotate(0deg)}
+  100%{-webkit-transform:rotate(360deg)}
 }

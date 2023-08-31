@@ -3,12 +3,13 @@ import * as viewer from './viewer/viewer.js';
 import * as createNote from './popup/create-note/create-note.js';
 import * as suggestion from './modal/suggestion/suggestion.js';
 import * as account from './popup/account/account.js';
+import { createGeneralPopup } from './popup/general-popup.js';
 
+let geolocation = undefined;
 const main = document.querySelector('main#main');
 
 const router = async function () {
   const hash = location.hash.replace('#/', '');
-  console.log(hash);
 
   switch (hash) {
     case 'viewer':
@@ -35,23 +36,27 @@ router();
  * @type {HTMLDivElement}
  */
 const overlay = document.querySelector('div.overlay');
-overlay.addEventListener('click', () => {
+export const closeOverlay = function () {
   overlay.style.display = null;
   overlay.innerHTML = '';
-});
+};
+export const showOverlay = function (child, preventOverlayClose) {
+  overlay.style.display = 'grid';
+  overlay.innerHTML = '';
+  overlay.appendChild(child);
+  if (preventOverlayClose) {
+    overlay.removeEventListener('click', closeOverlay);
+  }
+};
+overlay.addEventListener('click', closeOverlay);
 
 const createNoteButton = document.querySelector('header>button.create-note');
 createNoteButton.addEventListener('click', async () => {
-  /* overlay.style.display = 'grid';
+  overlay.style.display = 'grid';
   overlay.innerHTML = await (
     await fetch('./popup/create-note/create-note.html')
   ).text();
-  createNote.init();*/
-  overlay.style.display = 'grid';
-  overlay.innerHTML = await (
-    await fetch('./modal/suggestion/suggestion.html')
-  ).text();
-  await suggestion.show();
+  createNote.init();
 });
 
 const accountButton = document.querySelector('header>button.account');
@@ -62,3 +67,46 @@ accountButton.addEventListener('click', async () => {
   ).text();
   account.init();
 });
+
+// ユーザー関連の関数
+const isUserLoggedIn = function () {
+  const session = JSON.parse(window.sessionStorage.getItem('session'));
+  if (!session) return false;
+  const now = new Date().getTime() / 1000;
+  // console.log(now, session?.expires_at);
+  return session?.expires_at > now;
+};
+const getUsername = function () {
+  const session = JSON.parse(window.sessionStorage.getItem('session'));
+  return session.user.user_metadata.username;
+};
+
+if (isUserLoggedIn()) {
+  accountButton.textContent = getUsername();
+  if (window.localStorage.getItem('geolocation-enabled') !== 'true') {
+    if ('geolocation' in navigator) {
+      overlay.style.display = 'grid';
+      overlay.appendChild(
+        createGeneralPopup('本アプリケーションでは位置情報を使用します。')
+      );
+      geolocation = navigator.geolocation;
+      geolocation.getCurrentPosition((position) => {
+        console.log(
+          `latitude: ${position.coords.latitude}, longitude: ${position.coords.longitude}`
+        );
+        window.localStorage.setItem('geolocation-enabled', 'true');
+      });
+    } else {
+      overlay.appendChild(
+        createGeneralPopup(
+          'お使いのブラウザでは本アプリケーションは動作しません'
+        )
+      );
+    }
+  } else {
+    geolocation = navigator.geolocation;
+  }
+} else {
+  window.sessionStorage.removeItem('session');
+  accountButton.click();
+}
