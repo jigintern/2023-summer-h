@@ -5,6 +5,14 @@ import * as suggestion from './modal/suggestion/suggestion.js';
 import * as account from './popup/account/account.js';
 import { createGeneralPopup } from './popup/general-popup.js';
 
+// Web Share Target API から画像をもらう
+navigator.serviceWorker.onmessage = function (event) {
+  console.log('fire');
+  const imageBlob = event.data.file;
+  // we now have the file data and can for example use it as a source for an img with the id image on our page
+  localStorage.setItem('shared-image', URL.createObjectURL(imageBlob));
+};
+
 let geolocation = undefined;
 const main = document.querySelector('main#main');
 
@@ -26,7 +34,7 @@ const router = async function () {
   }
 };
 
-window.addEventListener('hashchange', router);
+self.addEventListener('hashchange', router);
 
 router();
 

@@ -1,4 +1,4 @@
-import { closeOverlay, showOverlay, suggestNote} from '../main.js';
+import { closeOverlay, showOverlay, suggestNote } from '../main.js';
 import { createGeneralPopup, createLoading } from '../popup/general-popup.js';
 
 let image = undefined;
@@ -40,6 +40,12 @@ export const init = async function () {
       );
     });
   });
+  const sharedImage = localStorage.getItem('shared-image');
+  if (sharedImage) {
+    image = sharedImage;
+    document.querySelector('#img').src = sharedImage;
+    localStorage.removeItem('shared-image');
+  }
 
   document
     .querySelector('button#push-stamp')
