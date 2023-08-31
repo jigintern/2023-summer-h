@@ -7,15 +7,16 @@ div.suggestion {
   display: flex;
   flex-flow: column;
   align-items: flex-start;
-  border-radius: 24px 24px 0 0;
-  padding: 24px 20px 0px 20px;
+  border-radius: 28px 28px 0 0;
+  padding: 0 20px 0px 20px;
   background: white;
   transition: all 0.4s;
 }
 
 h3 {
   text-align: left;
-  margin-bottom: 12px;
+  margin-top: 28px;
+  margin-bottom: 8px;
 }
 
 div.active {
@@ -27,11 +28,17 @@ div.open {
   bottom: 0;
 }
 
-.scroll-box {
+.note-scroll-box {
   display: flex;
   width: inherit;
   overflow-x: auto;
-  margin-top: 36px;
+  padding-left: 4px;
+}
+
+.stamp-scroll-box {
+  display: flex;
+  width: inherit;
+  overflow-x: auto;
   padding-left: 4px;
 }
 
