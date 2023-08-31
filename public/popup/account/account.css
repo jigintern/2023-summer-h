@@ -63,3 +63,9 @@ div.account > details.signup > div.inner-signup > button#iconImageSelect > span 
   line-height: 40px;
   background-color: rgba(0, 0, 0, .8);
 }
+
+div.account > div.signout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
