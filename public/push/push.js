@@ -1,8 +1,11 @@
-import { createGeneralPopup } from '../popup/general-popup.js';
+import { closeOverlay, showOverlay } from '../main.js';
+import { createGeneralPopup, createLoading } from '../popup/general-popup.js';
 
 let image = undefined;
 
 export const init = function () {
+  const overlay = document.querySelector('div.overlay');
+
   const titleInput = document.querySelector('div.push input[name="title"]');
   const landmarkInput = document.querySelector(
     'div.push input[name="landmark"]'
@@ -32,6 +35,8 @@ export const init = function () {
   document
     .querySelector('button#push-stamp')
     .addEventListener('click', async () => {
+      showOverlay(createLoading(), true);
+
       const decoder = new TextDecoder();
       console.log(titleInput.value, landmarkInput.value, categoryInput.value);
       if (
@@ -40,6 +45,7 @@ export const init = function () {
         !landmarkInput.value ||
         !categoryInput.value
       ) {
+        closeOverlay();
         return;
       }
       console.log(titleInput.value);
@@ -58,6 +64,7 @@ export const init = function () {
         if (tmp.done) break;
       }
       if (imagePostRes.status === 400) {
+        closeOverlay();
         return;
       }
       const imageUrl = JSON.parse(buf).signedUrl;
@@ -87,12 +94,13 @@ export const init = function () {
           if (tmp.done) break;
         }
         if (stampPostRes.status === 400) {
+          closeOverlay();
           return;
         }
 
-        const overlay = document.querySelector('div.overlay');
-        overlay.style.display = 'grid';
-        overlay.appendChild(
+        overlay.addEventListener('click', closeOverlay);
+
+        showOverlay(
           createGeneralPopup(`スタンプを押しました！\n@${landmarkInput.value}`)
         );
 
