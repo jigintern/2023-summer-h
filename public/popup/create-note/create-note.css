@@ -19,7 +19,7 @@ div.create-note > .inner-create {
 div.create-note input {
   border: 2px solid var(--color-border);
   border-radius: 8px;
-  padding: 6px;
+  padding: 8px 6px;
   margin-bottom: 24px;
   width: 100%;
   outline: none;

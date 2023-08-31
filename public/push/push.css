@@ -42,7 +42,7 @@ div.push input,
 select {
   border: 2px solid var(--color-border);
   border-radius: 8px;
-  padding: 6px;
+  padding: 8px 6px;
   margin-bottom: 20px;
   width: 100%;
   outline: none;
