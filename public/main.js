@@ -5,6 +5,14 @@ import * as suggestion from './modal/suggestion/suggestion.js';
 import * as account from './popup/account/account.js';
 import { createGeneralPopup } from './popup/general-popup.js';
 
+// Web Share Target API から画像をもらう
+navigator.serviceWorker.onmessage = function (event) {
+  console.log('fire');
+  const imageBlob = event.data.file;
+  // we now have the file data and can for example use it as a source for an img with the id image on our page
+  localStorage.setItem('shared-image', URL.createObjectURL(imageBlob));
+};
+
 let geolocation = undefined;
 const main = document.querySelector('main#main');
 
@@ -26,7 +34,7 @@ const router = async function () {
   }
 };
 
-window.addEventListener('hashchange', router);
+self.addEventListener('hashchange', router);
 
 router();
 
@@ -151,7 +159,7 @@ const clearOldNoteId = async () => {
 };
 clearOldNoteId();
 
-export const suggestNote = async function() {
+export const suggestNote = async function () {
   overlay.style.display = 'grid';
   overlay.innerHTML = await (
     await fetch('./modal/suggestion/suggestion.html')
@@ -159,4 +167,4 @@ export const suggestNote = async function() {
   await suggestion.show();
   overlay.removeEventListener('click', suggestNote);
   overlay.addEventListener('click', closeOverlay);
-}
+};
