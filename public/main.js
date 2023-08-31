@@ -14,7 +14,7 @@ const router = async function () {
   switch (hash) {
     case 'viewer':
       main.innerHTML = await (await fetch('./viewer/viewer.html')).text();
-      viewer.init();
+      await viewer.init();
       break;
     case 'push':
       main.innerHTML = await (await fetch('./push/push.html')).text();
