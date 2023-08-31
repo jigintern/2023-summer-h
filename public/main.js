@@ -1,6 +1,7 @@
 import * as push from './push/push.js';
 import * as viewer from './viewer/viewer.js';
 import * as createNote from './popup/create-note/create-note.js';
+import * as suggestion from './modal/suggestion/suggestion.js';
 import * as account from './popup/account/account.js';
 import { createGeneralPopup } from './popup/general-popup.js';
 
