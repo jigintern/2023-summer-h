@@ -164,6 +164,27 @@ serve(async (req) => {
     console.log(res);
     return new Response(JSON.stringify(res));
   }
+
+  // 今日のスタンプ帳idを取得 w/user_id
+  if (pathname === '/noteid/today') {
+    if (req.method === 'GET') {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      console.log(today.toISOString());
+      const user_id = url.searchParams.get('user_id');
+      const res = await supabase
+        .from('notes')
+        .select()
+        .eq('user_id', user_id)
+        .gte('created_at', today.toUTCString())
+        .order('created_at', { ascending: false })
+        .limit(1);
+      if (res.error) return new Response(JSON.stringify(res.error));
+      return new Response(JSON.stringify(res.data[0]?.id));
+    }
+    return new Response('Method not allowed', { status: 405 });
+  }
+
   //スタンプ帳取得 w/note_id
   if (req.method === 'GET' && pathname === '/getnote') {
     const note_id = url.searchParams.get('note_id');
