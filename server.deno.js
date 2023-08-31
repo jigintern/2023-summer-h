@@ -146,6 +146,38 @@ serve(async (req) => {
     return new Response(JSON.stringify(res.data), { status: 200 });
   }
 
+  //スタンプ帳取得
+  if (req.method === 'POST' && pathname === '/getnote') {
+    const json=await req.json();
+    const user_id=json.user_id;
+    const res=await supabase.from('notes').select().eq('user_id', user_id);
+    console.log(res);
+    return new Response(JSON.stringify(res));
+  }
+
+  //近場のシート取得
+  if (req.method === 'POST' && pathname === '/near') {
+    const json=await req.json();
+    const latitude=json.latitude;
+    const longitude=json.longitude;
+    const res=await supabase.from('stamps').select('note_id')
+      .gt('latitude', latitude-0.0045069).lt('latitude', latitude+0.0045069)
+      .gt('longitude', longitude-0.0054772).lt('longitude', longitude+0.0054772);
+
+    const tmp=[];
+    res.data.forEach((em)=>{
+        tmp.push(em.note_id);
+    });
+    tmp.sort((a,b)=>b-a);
+    const arr=[...new Set(tmp)];
+
+    const noteRes=await supabase.from('notes').select().in('id', arr);
+    console.log(noteRes.data);
+
+    return new Response(JSON.stringify(noteRes.data));
+  }
+
+
   // TODO: 実装
   // if (pathname === '/users/icon') {
   //   const iconUrl = new URL(req.url).searchParams.get('iconUrl');
