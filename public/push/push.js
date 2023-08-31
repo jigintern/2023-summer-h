@@ -1,4 +1,4 @@
-import { closeOverlay, showOverlay } from '../main.js';
+import { closeOverlay, showOverlay, suggestNote} from '../main.js';
 import { createGeneralPopup, createLoading } from '../popup/general-popup.js';
 
 let image = undefined;
@@ -106,7 +106,7 @@ export const init = async function () {
           return;
         }
 
-        overlay.addEventListener('click', closeOverlay);
+        overlay.addEventListener('click', suggestNote);
 
         showOverlay(
           createGeneralPopup(`スタンプを押しました！\n@${landmarkInput.value}`)

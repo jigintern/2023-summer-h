@@ -179,11 +179,11 @@ serve(async (req) => {
     const longitude = json.longitude;
     const res = await supabase
       .from('stamps')
-      .select('note_id')
-      .gt('latitude', latitude - 0.0045069)
-      .lt('latitude', latitude + 0.0045069)
-      .gt('longitude', longitude - 0.0054772)
-      .lt('longitude', longitude + 0.0054772);
+      .select('note_id');
+      // .gt('latitude', latitude - 0.0045069)
+      // .lt('latitude', latitude + 0.0045069)
+      // .gt('longitude', longitude - 0.0054772)
+      // .lt('longitude', longitude + 0.0054772);
 
     const tmp = [];
     res.data.forEach((em) => {
