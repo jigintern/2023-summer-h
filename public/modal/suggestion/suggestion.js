@@ -17,10 +17,12 @@ export const show = async function () {
   const noteScrollBox = document.querySelector('div.note-scroll-box');
   const stampScrollBox = document.querySelector('div.stamp-scroll-box');
 
-  const body={
-    latitude:34.9671387697056,
-    longitude:135.77267225109847
-  };
+  const body=new Object();
+  navigator.geolocation.getCurrentPosition(async (position) => {
+    body.latitude=position.coords.latitude;
+    body.longitude=position.coords.longitude;
+  });
+
   const params={
     method:'POST',
     body:JSON.stringify(body)
