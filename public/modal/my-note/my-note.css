@@ -1,0 +1,30 @@
+div.my-note {
+  position: fixed;
+  bottom: -120%;
+  left: 0;
+  width: 100%;
+  height: 70vh;
+  display: flex;
+  flex-flow: column;
+  align-items: flex-start;
+  border-radius: 24px 24px 0 0;
+  padding: 24px 20px 0px 20px;
+  background: white;
+  transition: all 0.4s;
+}
+
+h3 {
+  text-align: left;
+}
+
+div.active {
+  bottom: 0;
+}
+
+.stamp-scroll-box {
+  display: flex;
+  width: inherit;
+  overflow-x: auto;
+  margin-top: 9px;
+  padding-left: 4px;
+}

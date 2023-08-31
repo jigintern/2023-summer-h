@@ -1,5 +1,6 @@
 export const createStampCard = function (url, title, createdAt) {
   const stampCardElement = document.createElement('div');
+  stampCardElement.style.backgroundColor = 'white';
   stampCardElement.style.padding = '12px 16px';
   stampCardElement.style.margin = '0 12px 24px 0';
   stampCardElement.style.border = '0.5px solid var(--color-border)';
@@ -39,6 +40,7 @@ export const createStampCard = function (url, title, createdAt) {
 
 export const createNoteCard = function (url, title, createdBy, onclick) {
   const noteCardElement = document.createElement('div');
+  noteCardElement.style.backgroundColor = 'white';
   noteCardElement.style.padding = '12px 16px';
   noteCardElement.style.margin = '0 12px 24px 0';
   noteCardElement.style.border = '0.5px solid var(--color-border)';
