@@ -147,13 +147,20 @@ serve(async (req) => {
     return new Response(JSON.stringify(res.data), { status: 200 });
   }
 
-  //スタンプ帳取得
-  if (req.method === 'POST' && pathname === '/getnote') {
+  //スタンプ帳リスト取得 w/user_id
+  if (req.method === 'POST' && pathname === '/getnotes') {
     const json=await req.json();
     const user_id=json.user_id;
     const res=await supabase.from('notes').select().eq('user_id', user_id);
     console.log(res);
     return new Response(JSON.stringify(res));
+  }
+  //スタンプ帳取得 w/note_id
+  if (req.method === 'GET' && pathname === '/getnote') {
+    const note_id=url.searchParams.get('note_id');
+    const res=await supabase.from('notes').select().eq('id', note_id);
+    console.log(res.data);
+    return new Response(JSON.stringify(res.data));
   }
 
   //近場のシート取得

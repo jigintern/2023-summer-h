@@ -11,10 +11,16 @@ export const init = function () {
     ev.target.setAttribute('disabled', 'true');
     const title=document.querySelector('div.create-note input').value;
     const user_id=JSON.parse(window.sessionStorage.getItem("session"))?.user.id;
-    //データないとき    
+    var note_id=localStorage.getItem('note_id');
+    //例外
     if (!user_id){
       createNoteErrorSpan.style.display = 'block';
       createNoteErrorSpan.textContent = 'ログインしてください';
+      ev.target.removeAttribute('disabled');
+      return;
+    } else if (note_id) {
+      createNoteErrorSpan.style.display = 'block';
+      createNoteErrorSpan.textContent = '本日はすでに作成済みです';
       ev.target.removeAttribute('disabled');
       return;
     } else if (!title) {
@@ -37,7 +43,8 @@ export const init = function () {
       body: JSON.stringify(data)
     };
     const response=await fetch('/newnote', params);
-    const note_id=await response.text();
+    note_id=await response.text();
+    localStorage.setItem('note_id', note_id);
     console.log(note_id);
 
     //overlay削除
