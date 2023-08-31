@@ -3,22 +3,49 @@ div.account {
   max-width: 300px;
   padding: 16px;
   border-radius: 16px;
-
   background-color: var(--color-background);
-  ;
+}
+
+summary {
+  font-weight: bold;
+  margin-bottom: 6px;
+}
+
+div.account input {
+  display: block;
+  border: 2px solid var(--color-border);
+  border-radius: 7px;
+  padding: 8px 6px;
+  width: 100%;
+  outline: none;
+
+  background-color: white;
+}
+
+div.account input:focus {
+  border-color: var(--color-primary);
 }
 
 div.account button {
-  height: 24px;
-  padding: 0 12px;
-  border: 2px solid var(--color-border);
+  width: 100%;
+  border: none;
+  outline: none;
+  font: inherit;
+  margin-top: 16px;
+  padding: 10px 0px;
   border-radius: 12px;
   background-color: var(--color-primary);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: bold;
 }
 
-div.account span.error{
+div.account span.error {
   width: 100%;
-  padding: 8px;
+  padding: 6px 8px;
   border: 2px solid var(--color-caution);
   border-radius: 8px;
   display: none;
@@ -32,20 +59,28 @@ div.account > details.signin > div.inner-signin {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px
+  gap: 9px;
+
+  margin: 0 16px 12px 16px;
 }
 
 div.account > details.signup > div.inner-signup {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px
+  margin: 0 16px 0 16px;
+  gap: 9px;
+}
+
+div.account > details.signup > div.inner-signup > input#icon {
+  display: none;
 }
 
 div.account > details.signup > div.inner-signup > button#iconImageSelect {
-  width: 200px;
-  height: 200px;
+  width: 128px;
+  height: 128px;
   border-radius: 100vh;
+  border: 2px solid var(--color-border);
   padding: 0;
   overflow: hidden;
   display: flex;
@@ -56,12 +91,17 @@ div.account > details.signup > div.inner-signup > button#iconImageSelect {
   background-repeat: no-repeat;
 }
 
-div.account > details.signup > div.inner-signup > button#iconImageSelect > span {
+div.account
+  > details.signup
+  > div.inner-signup
+  > button#iconImageSelect
+  > span {
   width: 100%;
   padding-bottom: 10px;
+  font-size: 9px;
   color: white;
-  line-height: 40px;
-  background-color: rgba(0, 0, 0, .8);
+  line-height: 32px;
+  background-color: rgba(0, 0, 0, 0.8);
 }
 
 div.account > div.signout {

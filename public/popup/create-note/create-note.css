@@ -1,46 +1,42 @@
 div.create-note {
   width: 80vw;
   max-width: 300px;
-  padding: 16px;
+  padding: 20px 16px 24px 16px;
   border-radius: 16px;
 
   background-color: var(--color-background);
 }
 
-h3 {
+div.create-note h3 {
   text-align: center;
+  margin-bottom: 20px;
 }
 
-form label {
-  display: block;
+div.create-note > .inner-create {
+  margin: 0 16px 0 16px;
 }
 
-form input {
-  display: block;
+div.create-note input {
   border: 2px solid var(--color-border);
   border-radius: 8px;
-  padding: 6px;
+  padding: 8px 6px;
+  margin-bottom: 24px;
   width: 100%;
   outline: none;
 }
 
-form input:focus {
+div.create-note input:focus {
   border-color: var(--color-primary-focused);
 }
 
-form {
-  width: 100%;
-  margin-top: 32px;
-}
-
-form div {
-  margin-bottom: 16px;
-}
-
 .button {
+  width: 100%;
+  border: none;
+  outline: none;
+  font: inherit;
   margin-top: 32px;
   padding: 12px 0px;
-  border-radius: 6px;
+  border-radius: 12px;
   background-color: var(--color-primary);
   display: flex;
   justify-content: center;
@@ -54,7 +50,7 @@ form div {
   background-color: var(--color-primary-focused);
 }
 
-div.create-note span.error{
+div.create-note span.error {
   width: 100%;
   padding: 8px;
   border: 2px solid var(--color-caution);

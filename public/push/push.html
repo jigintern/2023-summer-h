@@ -1,43 +1,35 @@
 <div class="push">
   <h2>スタンプを押す</h2>
-  <label class="stamp">
-    <img id="img" />
+    <label class="stamp">
+      <img id="img" />
+      <input
+        type="file"
+        id="picker"
+        accept="image/*"
+      />
+    </label>
+    <div class="inner-push">
+    <label>タイトル</label>
     <input
-      type="file"
-      id="picker"
-      accept="image/*"
+      type="text"
+      name="title"
+      placeholder="jig.jp の社屋"
     />
-  </label>
-  <form>
-    <div>
-      <label>タイトル</label>
-      <input
-        type="text"
-        name="title"
-        placeholder="jig.jp の社屋"
-      />
-    </div>
-    <div>
-      <label>場所</label>
-      <input
-        type="text"
-        name="landmark"
-      />
-    </div>
-    <div>
-      <label>カテゴリ</label>
-      <select
-        type="text"
-        name="category"
-      ></select>
-    </div>
-    <div>
-      <button
-        type="button"
-        id="push-stamp"
-      >
-        作成する
-      </button>
-    </div>
-  </form>
+    <label>場所</label>
+    <input
+      type="text"
+      name="landmark"
+    />
+    <label>カテゴリ</label>
+    <select
+      type="text"
+      name="category"
+    ></select>
+    <button
+      type="button"
+      id="push-stamp"
+    >
+      作成する
+    </button>
+  </div>
 </div>

@@ -8,10 +8,15 @@ div.push {
   background: var(--color-background);
 }
 
-h2 {
+div.push h2 {
   width: 100%;
   text-align: left;
   margin-bottom: 24px;
+}
+
+div.push > .inner-push {
+  width: 100%;
+  padding: 16px 32px 0 32px;
 }
 
 .stamp {
@@ -29,35 +34,22 @@ h2 {
   object-position: center center;
 }
 
-.stamp input {
+div.push > .stamp > input {
   display: none;
 }
 
-form label {
-  display: block;
-}
-
-form input, select {
-  display: block;
+div.push input,
+select {
   border: 2px solid var(--color-border);
-  border-radius: 4px;
-  padding: 6px 4px;
+  border-radius: 8px;
+  padding: 8px 6px;
+  margin-bottom: 20px;
   width: 100%;
   outline: none;
-  background-color: white;
 }
 
-form input:focus {
-  border-color: var(--color-primary-focused);
-}
-
-form {
-  margin-top: 32px;
-}
-
-form div {
-  margin: 0 12px 16px 12px;
-  padding: 0 24px;
+div.push input:focus {
+  border-color: var(--color-primary);
 }
 
 button#push-stamp {
