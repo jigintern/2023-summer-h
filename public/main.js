@@ -147,3 +147,15 @@ const clearOldNoteId = async () => {
     localStorage.removeItem('note_id');
 };
 clearOldNoteId();
+
+document.getElementById('test').addEventListener('click', async ()=>{suggestNote()});
+
+export const suggestNote = async function() {
+  overlay.style.display = 'grid';
+  overlay.innerHTML = await (
+    await fetch('./modal/suggestion/suggestion.html')
+  ).text();
+  await suggestion.show();
+  overlay.removeEventListener('click', suggestNote);
+  overlay.addEventListener('click', closeOverlay);
+}

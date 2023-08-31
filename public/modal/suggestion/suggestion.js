@@ -17,82 +17,34 @@ export const show = async function () {
   const noteScrollBox = document.querySelector('div.note-scroll-box');
   const stampScrollBox = document.querySelector('div.stamp-scroll-box');
 
-  const dummyNotes = [
-    {
-      note_id: 0,
-      title: '奈良旅行１日目',
-      url: null,
-      createdBy: 'ゆうしん',
-    },
-    {
-      note_id: 1,
-      title: '奈良旅行2日目',
-      url: null,
-      createdBy: 'ゆうしん',
-    },
-    {
-      note_id: 2,
-      title: '奈良旅行3日目',
-      url: null,
-      createdBy: 'ゆうしん',
-    },
-    {
-      note_id: 3,
-      title: '奈良旅行4日目',
-      url: null,
-      createdBy: 'ゆうしん',
-    },
-  ];
+  const body=new Object();
+  navigator.geolocation.getCurrentPosition(async (position) => {
+    body.latitude=position.coords.latitude;
+    body.longitude=position.coords.longitude;
+  });
 
-  const dummyStamps = [
-    {
-      note_id: 0,
-      title: '東大寺',
-      url: null,
-      createdAt: '17:25',
-    },
-    {
-      note_id: 0,
-      title: '西大寺',
-      url: null,
-      createdAt: '17:55',
-    },
-    {
-      note_id: 0,
-      title: '南大寺',
-      url: null,
-      createdAt: '18:25',
-    },
-    {
-      note_id: 0,
-      title: '北大寺',
-      url: null,
-      createdAt: '18:55',
-    },
-  ];
+  const params={
+    method:'POST',
+    body:JSON.stringify(body)
+  };
+  const response=await fetch('/near', params);
+  const notesJson=await response.json();
 
-  dummyNotes.forEach((note) => {
-    const noteCard = createNoteCard(
-      note.url,
-      note.title,
-      note.createdBy,
-      () => {
-        suggestion.classList.add('open');
-        document.querySelector(
-          'div.title'
-        ).innerHTML = `<h3>${note.title}</h3>`;
-        stampScrollBox.innerHTML = '';
-        dummyStamps.forEach((stamp) => {
-          const stampCard = createStampCard(
-            stamp.url,
-            stamp.title,
-            stamp.createdAt
-          );
-          stampScrollBox.appendChild(stampCard);
-        });
-      }
-    );
-    console.log(note);
+  notesJson.forEach(async (note) => {
+    const noteCard = createNoteCard(null, note.title, 'ゆうしん', async () => {
+      stampScrollBox.innerHTML='';
+      suggestion.classList.add('open');
+      document.querySelector('div.title').innerHTML = '<h3>'+note.title+'</h3>';
+
+      const note_id=note.id;
+      const response=await fetch('/getstamps?note_id='+note_id);
+      const stampsJson=await response.json();
+      stampsJson.forEach((stamp)=>{
+        const time=new Date(stamp.created_at).getHours()+":"+new Date(stamp.created_at).getMinutes();
+        const stampCard = createStampCard(stamp.url, stamp.landmark, time);
+        stampScrollBox.appendChild(stampCard);
+      });
+    });
     noteScrollBox.appendChild(noteCard);
   });
 };
