@@ -71,6 +71,18 @@ export const init = function () {
       ev.target.removeAttribute('disabled');
       overlay.style.display = null;
       overlay.innerHTML = '';
+
+      const todaysNoteIdRes = await fetch(
+        `/noteid/today?user_id=${data.user.id}`
+      );
+      const todaysNoteId = await todaysNoteIdRes.text();
+      if (!todaysNoteId) {
+        document
+          .querySelector('header>button.create-note')
+          .dispatchEvent(new Event('click'));
+        return;
+      }
+      window.localStorage.setItem('note_id', todaysNoteId);
     });
 
   const iconImageSelectButton = document.querySelector(
