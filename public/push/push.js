@@ -6,6 +6,7 @@ let image = undefined;
 export const init = async function () {
   const overlay = document.querySelector('div.overlay');
 
+  const errorSpan = document.querySelector('div.push span.error');
   const titleInput = document.querySelector('div.push input[name="title"]');
   const landmarkInput = document.querySelector(
     'div.push input[name="landmark"]'
@@ -53,10 +54,31 @@ export const init = async function () {
         !landmarkInput.value ||
         !categoryInput.value
       ) {
-        closeOverlay();
+        errorSpan.style.display = 'block';
+        errorSpan.textContent = '未入力の項目があります';
+        closeOverlay(true);
         return;
+      } else {
+        errorSpan.style.display = 'none';
+        errorSpan.textContent = '';
       }
-      console.log(titleInput.value);
+
+      const user_id = JSON.parse(sessionStorage.getItem('session')).user.id;
+      let note_id = localStorage.getItem('note_id');
+      if (!note_id) {
+        note_id = await (
+          await fetch(`/noteid/today?user_id=${user_id}`)
+        ).text();
+        if (!note_id) {
+          errorSpan.style.display = 'block';
+          errorSpan.textContent = '本日のスタンプ帳が未作成です';
+          closeOverlay(true);
+          return;
+        } else {
+          window.localStorage.setItem('note_id', note_id);
+        }
+      }
+
       // スタンプ画像のアップロード
       const imagePostRes = await fetch('/stamp-image', {
         method: 'POST',
@@ -72,7 +94,9 @@ export const init = async function () {
         if (tmp.done) break;
       }
       if (imagePostRes.status === 400) {
-        closeOverlay();
+        errorSpan.style.display = 'block';
+        errorSpan.textContent = buf;
+        closeOverlay(true);
         return;
       }
       const imageUrl = JSON.parse(buf).publicUrl;
@@ -81,7 +105,6 @@ export const init = async function () {
       // 位置情報を取得
       navigator.geolocation.getCurrentPosition(async (position) => {
         // スタンプの登録
-        const note_id = localStorage.getItem('note_id');
         const stampPostRes = await fetch('/newstamp', {
           method: 'POST',
           body: JSON.stringify({
@@ -102,7 +125,9 @@ export const init = async function () {
           if (tmp.done) break;
         }
         if (stampPostRes.status === 400) {
-          closeOverlay();
+          errorSpan.style.display = 'block';
+          errorSpan.textContent = buf;
+          closeOverlay(true);
           return;
         }
 
