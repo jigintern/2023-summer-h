@@ -42,16 +42,11 @@ overlay.addEventListener('click', () => {
 
 const createNoteButton = document.querySelector('header>button.create-note');
 createNoteButton.addEventListener('click', async () => {
-  /* overlay.style.display = 'grid';
+  overlay.style.display = 'grid';
   overlay.innerHTML = await (
     await fetch('./popup/create-note/create-note.html')
   ).text();
-  createNote.init();*/
-  overlay.style.display = 'grid';
-  overlay.innerHTML = await (
-    await fetch('./modal/suggestion/suggestion.html')
-  ).text();
-  await suggestion.show();
+  createNote.init();
 });
 
 const accountButton = document.querySelector('header>button.account');
