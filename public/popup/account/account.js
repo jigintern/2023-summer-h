@@ -1,4 +1,4 @@
-import { Base256B } from 'https://code4fukui.github.io/Base256B/Base256B.js';
+let iconImage = undefined;
 
 export const init = function () {
   const accountButton = document.querySelector('header>button.account');
@@ -58,7 +58,7 @@ export const init = function () {
       }
       const data = JSON.parse(buf);
       window.sessionStorage.setItem('session', JSON.stringify(data.session));
-      accountButton.textContent = data.user.user_metadata.username;
+      accountButton.style.backgroundImage = `url(${data.user.user_metadata.iconurl}`;
 
       ev.target.removeAttribute('disabled');
       overlay.style.display = null;
@@ -76,9 +76,14 @@ export const init = function () {
     const [iconFile] = ev.target.files;
 
     if (iconFile) {
+      const reader = new FileReader();
       iconImageSelectButton.style.backgroundImage = `url(${URL.createObjectURL(
         iconFile
       )})`;
+      reader.onload = (event) => {
+        iconImage = event.target.result;
+      };
+      reader.readAsDataURL(iconFile);
     }
   });
 
@@ -104,12 +109,23 @@ export const init = function () {
         password = await digest(password);
       }
 
+      // ユーザーアイコンのアップロード
+      const iconPostRes = await fetch('/users/icon', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ file: iconImage }),
+      });
+
+      const imageUrl = JSON.parse(await iconPostRes.text()).publicUrl;
+
       // ユーザー登録
       const body = {
         username: username,
         email: email,
         password: password,
+        iconUrl: imageUrl,
       };
+      console.log(body);
 
       const decoder = new TextDecoder();
       const res = await fetch('/users/register', {
@@ -132,23 +148,11 @@ export const init = function () {
       }
       const data = JSON.parse(buf);
       window.sessionStorage.setItem('session', JSON.stringify(data.session));
-      accountButton.textContent = data.user.user_metadata.username;
+      accountButton.style.backgroundImage = `url(${data.user.user_metadata.iconurl}`;
 
       ev.target.removeAttribute('disabled');
       overlay.style.display = null;
       overlay.innerHTML = '';
-
-      // console.log(data);
-
-      // TODO: 実装
-      // // アイコン画像を登録
-      // res = await fetch(
-      //   `/users/icon?iconUrl=${data.user.user_metadata.iconurl}`,
-      //   {
-      //     method: 'POST',
-      //     body: document.querySelector('input#icon').files[0],
-      //   }
-      // );
     });
 };
 
