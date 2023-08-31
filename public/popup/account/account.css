@@ -32,7 +32,7 @@ div.account button {
   outline: none;
   font: inherit;
   margin-top: 16px;
-  padding: 12px 0px;
+  padding: 10px 0px;
   border-radius: 12px;
   background-color: var(--color-primary);
   display: flex;
