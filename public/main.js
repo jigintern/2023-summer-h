@@ -2,12 +2,13 @@ import * as push from './push/push.js';
 import * as viewer from './viewer/viewer.js';
 import * as createNote from './popup/create-note/create-note.js';
 import * as account from './popup/account/account.js';
+import { createGeneralPopup } from './popup/general-popup.js';
 
+let geolocation = undefined;
 const main = document.querySelector('main#main');
 
 const router = async function () {
   const hash = location.hash.replace('#/', '');
-  console.log(hash);
 
   switch (hash) {
     case 'viewer':
@@ -27,19 +28,6 @@ const router = async function () {
 window.addEventListener('hashchange', router);
 
 router();
-
-// ユーザー関連の処理
-const isUserLoggedIn = function () {
-  const session = JSON.parse(window.sessionStorage.getItem('session'));
-  if (!session) return false;
-  const now = new Date().getTime() / 1000;
-  console.log(now, session?.expires_at);
-  return session?.expires_at > now;
-};
-const getUsername = function () {
-  const session = JSON.parse(window.sessionStorage.getItem('session'));
-  return session.user.user_metadata.username;
-};
 
 // ヘッダーのボタンの処理
 
@@ -62,10 +50,6 @@ createNoteButton.addEventListener('click', async () => {
 });
 
 const accountButton = document.querySelector('header>button.account');
-console.log(isUserLoggedIn());
-if (isUserLoggedIn()) {
-  accountButton.textContent = getUsername();
-}
 accountButton.addEventListener('click', async () => {
   overlay.style.display = 'grid';
   overlay.innerHTML = await (
@@ -73,3 +57,46 @@ accountButton.addEventListener('click', async () => {
   ).text();
   account.init();
 });
+
+// ユーザー関連の関数
+const isUserLoggedIn = function () {
+  const session = JSON.parse(window.sessionStorage.getItem('session'));
+  if (!session) return false;
+  const now = new Date().getTime() / 1000;
+  // console.log(now, session?.expires_at);
+  return session?.expires_at > now;
+};
+const getUsername = function () {
+  const session = JSON.parse(window.sessionStorage.getItem('session'));
+  return session.user.user_metadata.username;
+};
+
+if (isUserLoggedIn()) {
+  accountButton.textContent = getUsername();
+  if (window.localStorage.getItem('geolocation-enabled') !== 'true') {
+    if ('geolocation' in navigator) {
+      overlay.style.display = 'grid';
+      overlay.appendChild(
+        createGeneralPopup('本アプリケーションでは位置情報を使用します。')
+      );
+      geolocation = navigator.geolocation;
+      geolocation.getCurrentPosition((position) => {
+        console.log(
+          `latitude: ${position.coords.latitude}, longitude: ${position.coords.longitude}`
+        );
+        window.localStorage.setItem('geolocation-enabled', 'true');
+      });
+    } else {
+      overlay.appendChild(
+        createGeneralPopup(
+          'お使いのブラウザでは本アプリケーションは動作しません'
+        )
+      );
+    }
+  } else {
+    geolocation = navigator.geolocation;
+  }
+} else {
+  window.sessionStorage.removeItem('session');
+  accountButton.click();
+}
