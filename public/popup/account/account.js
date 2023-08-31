@@ -167,6 +167,7 @@ export const init = function () {
     .querySelector('button.signout-button')
     .addEventListener('click', () => {
       window.sessionStorage.removeItem('session');
+      window.localStorage.removeItem('note_id');
       location.href = '/';
     });
 };
