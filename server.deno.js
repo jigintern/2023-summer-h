@@ -177,6 +177,14 @@ serve(async (req) => {
     return new Response(JSON.stringify(noteRes.data));
   }
 
+  //スタンプ取得
+  if (req.method === 'POST' && pathname === '/getstamps') {
+    const json=await req.json();
+    const note_id=json.note_id;
+    const res=await supabase.from('stamps').select().eq('note_id', note_id);
+    console.log(res);
+    return new Response(JSON.stringify(res.data));
+  }
 
   // TODO: 実装
   // if (pathname === '/users/icon') {
