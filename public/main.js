@@ -1,7 +1,7 @@
 import * as push from './push/push.js';
 import * as viewer from './viewer/viewer.js';
 import * as createNote from './popup/create-note/create-note.js';
-import * as suggestion from "./modal/suggestion/suggestion.js"
+import * as suggestion from './modal/suggestion/suggestion.js';
 import * as account from './popup/account/account.js';
 import { createGeneralPopup } from './popup/general-popup.js';
 
@@ -50,18 +50,23 @@ export const showOverlay = function (child, preventOverlayClose) {
 };
 overlay.addEventListener('click', closeOverlay);
 
-const createNoteButton = document.querySelector('header>button.create-note');
-createNoteButton.addEventListener('click', async () => {
-  /* overlay.style.display = 'grid';
-  overlay.innerHTML = await (
-    await fetch('./popup/create-note/create-note.html')
-  ).text();
-  createNote.init();*/
+// サジェストモーダル確認用にロゴを使用
+const suggestionButton = document.querySelector('header>img');
+suggestionButton.addEventListener('click', async () => {
   overlay.style.display = 'grid';
   overlay.innerHTML = await (
     await fetch('./modal/suggestion/suggestion.html')
   ).text();
   await suggestion.show();
+});
+
+const createNoteButton = document.querySelector('header>button.create-note');
+createNoteButton.addEventListener('click', async () => {
+  overlay.style.display = 'grid';
+  overlay.innerHTML = await (
+    await fetch('./popup/create-note/create-note.html')
+  ).text();
+  createNote.init();
 });
 
 const accountButton = document.querySelector('header>button.account');
