@@ -148,8 +148,6 @@ const clearOldNoteId = async () => {
 };
 clearOldNoteId();
 
-document.getElementById('test').addEventListener('click', async ()=>{suggestNote()});
-
 export const suggestNote = async function() {
   overlay.style.display = 'grid';
   overlay.innerHTML = await (
