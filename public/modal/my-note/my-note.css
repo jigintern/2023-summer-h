@@ -28,3 +28,31 @@ div.active {
   margin-top: 9px;
   padding-left: 4px;
 }
+
+.not-exist-stamp-text {
+  margin-top: 12px;
+}
+
+.not-exist-stamp-button {
+  margin-top: 32px;
+  width: 100%;
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+}
+
+.not-exist-stamp-button a {
+  border: none;
+  outline: none;
+  font: inherit;
+  margin-top: 16px;
+  padding: 10px 24px;
+  border-radius: 12px;
+  background-color: var(--color-primary);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: bold;
+}
