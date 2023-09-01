@@ -29,7 +29,7 @@ export const show = async function () {
   };
   const response=await fetch('/near', params);
   const notesJson=await response.json();
-  
+
   notesJson.forEach(async (note) => {
     const name=note.users.raw_user_meta_data.username;
     const noteCard = createNoteCard(null, note.title, name, async () => {
