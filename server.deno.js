@@ -51,6 +51,8 @@ serve(async (req) => {
       .from('notes')
       .insert({ user_id: user_id, title: title })
       .select();
+    if (result.error)
+      return new Response(JSON.stringify(result.error), { status: 400 });
     return new Response(result.data[0].id);
   }
 
@@ -198,13 +200,11 @@ serve(async (req) => {
     const json = await req.json();
     const latitude = json.latitude;
     const longitude = json.longitude;
-    const res = await supabase
-      .from('stamps')
-      .select('note_id');
-      // .gt('latitude', latitude - 0.0045069)
-      // .lt('latitude', latitude + 0.0045069)
-      // .gt('longitude', longitude - 0.0054772)
-      // .lt('longitude', longitude + 0.0054772);
+    const res = await supabase.from('stamps').select('note_id');
+    // .gt('latitude', latitude - 0.0045069)
+    // .lt('latitude', latitude + 0.0045069)
+    // .gt('longitude', longitude - 0.0054772)
+    // .lt('longitude', longitude + 0.0054772);
 
     const tmp = [];
     res.data.forEach((em) => {
