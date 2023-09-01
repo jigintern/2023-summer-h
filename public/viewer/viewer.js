@@ -6,12 +6,7 @@ export const init = async function () {
   const grid = document.querySelector('div.grid');
 
   const user_id = JSON.parse(window.sessionStorage.getItem('session'))?.user.id;
-  const data = { user_id: user_id };
-  const params = {
-    method: 'POST',
-    body: JSON.stringify(data),
-  };
-  const response = await fetch('/getnotes', params);
+  const response = await fetch(`/getnotes?user_id=${user_id}`);
   const notesJson = await response.json();
   console.log(notesJson);
 
@@ -29,13 +24,18 @@ export const init = async function () {
   notesJson.data.forEach((note) => {
     const D = new Date(note.created_at);
     const date = D.getFullYear() + '/' + (D.getMonth() + 1) + '/' + D.getDate();
-    const noteCard = createNoteCard(note.url, note.title, date, async () => {
-      overlay.style.display = 'grid';
-      overlay.innerHTML = await (
-        await fetch('./modal/my-note/my-note.html')
-      ).text();
-      myNote.init(note.title, note.id);
-    });
+    const noteCard = createNoteCard(
+      note.thumbnailUrl,
+      note.title,
+      date,
+      async () => {
+        overlay.style.display = 'grid';
+        overlay.innerHTML = await (
+          await fetch('./modal/my-note/my-note.html')
+        ).text();
+        myNote.init(note.title, note.id);
+      }
+    );
     grid.appendChild(noteCard);
   });
 };

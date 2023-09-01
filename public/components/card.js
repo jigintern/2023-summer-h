@@ -58,11 +58,16 @@ export const createNoteCard = function (url, title, createdBy, onclick) {
   stampElement.style.height = '100px';
   stampElement.style.marginBottom = '12px';
   stampElement.style.borderRadius = '50%';
+  stampElement.style.overflow = 'hidden';
   stampElement.style.backgroundColor = 'lightgray';
 
   if (url) {
     const imgElement = document.createElement('img');
     imgElement.src = url;
+    imgElement.style.width = '100%';
+    imgElement.style.height = '100%';
+    imgElement.style.objectFit = 'cover';
+    imgElement.style.objectPosition = 'center';
     stampElement.appendChild(imgElement);
   }
 
