@@ -151,7 +151,7 @@ const clearOldNoteId = async () => {
 };
 clearOldNoteId();
 
-export const suggestNote = async function() {
+export const suggestNote = async function () {
   overlay.style.display = 'grid';
   overlay.innerHTML = await (
     await fetch('./modal/suggestion/suggestion.html')
@@ -159,4 +159,4 @@ export const suggestNote = async function() {
   await suggestion.show();
   overlay.removeEventListener('click', suggestNote);
   overlay.addEventListener('click', closeOverlay);
-}
+};
