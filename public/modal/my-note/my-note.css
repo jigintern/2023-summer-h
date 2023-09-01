@@ -7,7 +7,7 @@ div.my-note {
   display: flex;
   flex-flow: column;
   align-items: flex-start;
-  border-radius: 24px 24px 0 0;
+  border-radius: 28px 28px 0 0;
   padding: 24px 20px 0px 20px;
   background: white;
   transition: all 0.4s;
