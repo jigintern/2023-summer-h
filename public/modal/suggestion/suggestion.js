@@ -17,32 +17,42 @@ export const show = async function () {
   const noteScrollBox = document.querySelector('div.note-scroll-box');
   const stampScrollBox = document.querySelector('div.stamp-scroll-box');
 
-  const body=new Object();
+  const body = new Object();
   navigator.geolocation.getCurrentPosition(async (position) => {
-    body.latitude=position.coords.latitude;
-    body.longitude=position.coords.longitude;
+    body.latitude = position.coords.latitude;
+    body.longitude = position.coords.longitude;
   });
 
-  const params={
-    method:'POST',
-    body:JSON.stringify(body)
+  const params = {
+    method: 'POST',
+    body: JSON.stringify(body),
   };
-  const response=await fetch('/near', params);
-  const notesJson=await response.json();
+  const response = await fetch('/near', params);
+  const notesJson = await response.json();
+
+  // サジェストが存在するとき
+  if (notesJson) {
+    document.querySelector('div.caption').innerHTML =
+      '<h3>' + '他の人のスタンプ帳を獲得しました' + '</h3>';
+  } else {
+    document.querySelector('div.title').innerHTML =
+      '<h3>' + '近くにスタンプ帳は見つかりませんでした' + '</h3>';
+  }
 
   notesJson.forEach(async (note) => {
-    const name=note.users.raw_user_meta_data.username;
+    const name = note.users.raw_user_meta_data.username;
     const noteCard = createNoteCard(null, note.title, name, async () => {
-      stampScrollBox.innerHTML='';
+      stampScrollBox.innerHTML = '';
       suggestion.classList.add('open');
-      document.querySelector('div.title').innerHTML = '<h3>'+note.title+'</h3>';
+      document.querySelector('div.title').innerHTML =
+        '<h3>' + note.title + '</h3>';
 
-      const note_id=note.id;
-      const response=await fetch('/getstamps?note_id='+note_id);
-      const stampsJson=await response.json();
-      stampsJson.forEach((stamp)=>{
-        const D=new Date(stamp.created_at);
-        const time=D.getHours()+":"+('0'+D.getMinutes()).slice(-2);
+      const note_id = note.id;
+      const response = await fetch('/getstamps?note_id=' + note_id);
+      const stampsJson = await response.json();
+      stampsJson.forEach((stamp) => {
+        const D = new Date(stamp.created_at);
+        const time = D.getHours() + ':' + ('0' + D.getMinutes()).slice(-2);
         const stampCard = createStampCard(stamp.url, stamp.landmark, time);
         stampScrollBox.appendChild(stampCard);
       });
