@@ -29,9 +29,10 @@ export const show = async function () {
   };
   const response=await fetch('/near', params);
   const notesJson=await response.json();
-
+  
   notesJson.forEach(async (note) => {
-    const noteCard = createNoteCard(null, note.title, 'ゆうしん', async () => {
+    const name=note.users.raw_user_meta_data.username;
+    const noteCard = createNoteCard(null, note.title, name, async () => {
       stampScrollBox.innerHTML='';
       suggestion.classList.add('open');
       document.querySelector('div.title').innerHTML = '<h3>'+note.title+'</h3>';
