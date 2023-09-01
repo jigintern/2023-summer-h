@@ -7,7 +7,7 @@ div.my-note {
   display: flex;
   flex-flow: column;
   align-items: flex-start;
-  border-radius: 24px 24px 0 0;
+  border-radius: 28px 28px 0 0;
   padding: 24px 20px 0px 20px;
   background: white;
   transition: all 0.4s;
@@ -21,20 +21,19 @@ div.active {
   bottom: 0;
 }
 
-.stamp-scroll-box {
+div.my-note div.stamp-scroll-box {
   display: flex;
   width: inherit;
   overflow-x: auto;
-  margin-top: 9px;
   padding-left: 4px;
+  margin-top: 12px;
 }
 
-.not-exist-stamp-text {
+.not-exist-stamp-text p {
   margin-top: 12px;
 }
 
 .not-exist-stamp-button {
-  margin-top: 32px;
   width: 100%;
   display: flex;
   flex-flow: column;
@@ -42,6 +41,7 @@ div.active {
 }
 
 .not-exist-stamp-button a {
+  margin-top: 32px;
   border: none;
   outline: none;
   font: inherit;
