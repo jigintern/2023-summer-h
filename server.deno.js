@@ -213,8 +213,7 @@ serve(async (req) => {
     tmp.sort((a, b) => b - a);
     const arr = [...new Set(tmp)];
 
-    const noteRes = await supabase.from('notes').select().in('id', arr);
-    console.log(noteRes.data);
+    const noteRes = await supabase.from('notes').select('id, title, created_at, user_id, users(raw_user_meta_data)').in('id', arr);
 
     return new Response(JSON.stringify(noteRes.data));
   }
@@ -222,8 +221,7 @@ serve(async (req) => {
   //スタンプ取得
   if (req.method === 'GET' && pathname === '/getstamps') {
     const note_id = url.searchParams.get('note_id');
-    const res = await supabase.from('stamps').select().eq('note_id', note_id);
-    console.log(res.data);
+    const res = await supabase.from('stamps').select().eq('note_id', note_id).order('created_at', {ascending: true});
     return new Response(JSON.stringify(res.data));
   }
 

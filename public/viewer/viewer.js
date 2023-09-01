@@ -15,9 +15,8 @@ export const init = async function () {
   const notesJson=await response.json();
 
   notesJson.data.forEach((note) => {
-    const date=new Date(note.created_at).getFullYear()+'/'
-      +new Date(note.created_at).getMonth()+'/'
-      +new Date(note.created_at).getDay();
+    const D=new Date(note.created_at);
+    const date=D.getFullYear()+'/'+(D.getMonth()+1)+'/'+D.getDate();
     const noteCard = createNoteCard(
       note.url,
       note.title,
