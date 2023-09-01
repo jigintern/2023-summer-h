@@ -43,6 +43,10 @@ div.account button {
   font-weight: bold;
 }
 
+div.account button:active {
+  background-color: var(--color-primary-focused);
+}
+
 div.account span.error {
   width: 100%;
   padding: 6px 8px;
