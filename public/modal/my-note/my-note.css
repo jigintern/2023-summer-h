@@ -21,20 +21,19 @@ div.active {
   bottom: 0;
 }
 
-.stamp-scroll-box {
+div.my-note div.stamp-scroll-box {
   display: flex;
   width: inherit;
   overflow-x: auto;
-  margin-top: 9px;
   padding-left: 4px;
+  margin-top: 12px;
 }
 
-.not-exist-stamp-text {
+.not-exist-stamp-text p {
   margin-top: 12px;
 }
 
 .not-exist-stamp-button {
-  margin-top: 32px;
   width: 100%;
   display: flex;
   flex-flow: column;
@@ -42,6 +41,7 @@ div.active {
 }
 
 .not-exist-stamp-button a {
+  margin-top: 32px;
   border: none;
   outline: none;
   font: inherit;
