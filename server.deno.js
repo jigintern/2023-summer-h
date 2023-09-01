@@ -159,12 +159,36 @@ serve(async (req) => {
   }
 
   //スタンプ帳リスト取得 w/user_id
-  if (req.method === 'POST' && pathname === '/getnotes') {
-    const json = await req.json();
-    const user_id = json.user_id;
-    const res = await supabase.from('notes').select().eq('user_id', user_id);
-    console.log(res);
-    return new Response(JSON.stringify(res));
+  if (pathname === '/getnotes') {
+    if (req.method === 'GET') {
+      const user_id = url.searchParams.get('user_id');
+      const notesRes = await supabase
+        .from('notes')
+        .select()
+        .eq('user_id', user_id);
+      if (notesRes.error)
+        return new Response(JSON.stringify(notesRes.error), { status: 500 });
+
+      // 各スタンプ帳の最初のスタンプの画像urlを取得
+      const noteList = [];
+      for (let i = 0; i < notesRes.data.length; i++) {
+        const stampRes = await supabase
+          .from('stamps')
+          .select('url')
+          .eq('note_id', notesRes.data[i].id)
+          .order('created_at', { ascending: true })
+          .limit(1);
+        if (stampRes.error || !stampRes.data[0]?.url) {
+          noteList.push({ ...notesRes.data[i], thumbnailUrl: 'not found' });
+          continue;
+        }
+        noteList.push({
+          ...notesRes.data[i],
+          thumbnailUrl: stampRes.data[0].url,
+        });
+      }
+      return new Response(JSON.stringify({ data: noteList }));
+    }
   }
 
   // 今日のスタンプ帳idを取得 w/user_id
@@ -213,7 +237,10 @@ serve(async (req) => {
     tmp.sort((a, b) => b - a);
     const arr = [...new Set(tmp)];
 
-    const noteRes = await supabase.from('notes').select('id, title, created_at, user_id, users(raw_user_meta_data)').in('id', arr);
+    const noteRes = await supabase
+      .from('notes')
+      .select('id, title, created_at, user_id, users(raw_user_meta_data)')
+      .in('id', arr);
 
     return new Response(JSON.stringify(noteRes.data));
   }
@@ -221,7 +248,11 @@ serve(async (req) => {
   //スタンプ取得
   if (req.method === 'GET' && pathname === '/getstamps') {
     const note_id = url.searchParams.get('note_id');
-    const res = await supabase.from('stamps').select().eq('note_id', note_id).order('created_at', {ascending: true});
+    const res = await supabase
+      .from('stamps')
+      .select()
+      .eq('note_id', note_id)
+      .order('created_at', { ascending: true });
     return new Response(JSON.stringify(res.data));
   }
 
