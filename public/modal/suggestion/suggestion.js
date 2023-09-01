@@ -40,7 +40,8 @@ export const show = async function () {
       const response=await fetch('/getstamps?note_id='+note_id);
       const stampsJson=await response.json();
       stampsJson.forEach((stamp)=>{
-        const time=new Date(stamp.created_at).getHours()+":"+new Date(stamp.created_at).getMinutes();
+        const D=new Date(stamp.created_at);
+        const time=D.getHours()+":"+('0'+D.getMinutes()).slice(-2);
         const stampCard = createStampCard(stamp.url, stamp.landmark, time);
         stampScrollBox.appendChild(stampCard);
       });
