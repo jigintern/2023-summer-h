@@ -220,29 +220,53 @@ serve(async (req) => {
   }
 
   //近場のシート取得
-  if (req.method === 'POST' && pathname === '/near') {
-    const json = await req.json();
-    const latitude = json.latitude;
-    const longitude = json.longitude;
-    const res = await supabase.from('stamps').select('note_id');
-    // .gt('latitude', latitude - 0.0045069)
-    // .lt('latitude', latitude + 0.0045069)
-    // .gt('longitude', longitude - 0.0054772)
-    // .lt('longitude', longitude + 0.0054772);
+  if (pathname === '/near') {
+    if (req.method === 'GET') {
+      const latitude = url.searchParams.get('latitude');
+      const longitude = url.searchParams.get('longitude');
+      const res = await supabase.from('stamps').select('note_id');
+      // .gt('latitude', latitude - 0.0045069)
+      // .lt('latitude', latitude + 0.0045069)
+      // .gt('longitude', longitude - 0.0054772)
+      // .lt('longitude', longitude + 0.0054772);
+      if (res.error)
+        return new Response(JSON.stringify(res.error), { status: 400 });
 
-    const tmp = [];
-    res.data.forEach((em) => {
-      tmp.push(em.note_id);
-    });
-    tmp.sort((a, b) => b - a);
-    const arr = [...new Set(tmp)];
+      const tmp = [];
+      res.data.forEach((em) => {
+        tmp.push(em.note_id);
+      });
+      tmp.sort((a, b) => b - a);
+      const arr = [...new Set(tmp)];
 
-    const noteRes = await supabase
-      .from('notes')
-      .select('id, title, created_at, user_id, users(raw_user_meta_data)')
-      .in('id', arr);
+      const noteRes = await supabase
+        .from('notes')
+        .select('id, title, created_at, user_id, users(raw_user_meta_data)')
+        .in('id', arr);
+      if (noteRes.error)
+        return new Response(JSON.stringify(noteRes.error), { status: 400 });
 
-    return new Response(JSON.stringify(noteRes.data));
+      // 各スタンプ帳の最初のスタンプの画像urlを取得
+      const noteList = [];
+      for (let i = 0; i < noteRes.data.length; i++) {
+        const stampRes = await supabase
+          .from('stamps')
+          .select('url')
+          .eq('note_id', noteRes.data[i].id)
+          .order('created_at', { ascending: true })
+          .limit(1);
+        if (stampRes.error || !stampRes.data[0]?.url) {
+          noteList.push({ ...noteRes.data[i], thumbnailUrl: 'not found' });
+          continue;
+        }
+        noteList.push({
+          ...noteRes.data[i],
+          thumbnailUrl: stampRes.data[0].url,
+        });
+      }
+      return new Response(JSON.stringify(noteList));
+    }
+    return new Response('Method not allowed', { status: 405 });
   }
 
   //スタンプ取得
