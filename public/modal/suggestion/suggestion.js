@@ -31,7 +31,8 @@ export const show = async function () {
   const notesJson=await response.json();
 
   notesJson.forEach(async (note) => {
-    const noteCard = createNoteCard(null, note.title, 'ゆうしん', async () => {
+    const name=note.users.raw_user_meta_data.username;
+    const noteCard = createNoteCard(null, note.title, name, async () => {
       stampScrollBox.innerHTML='';
       suggestion.classList.add('open');
       document.querySelector('div.title').innerHTML = '<h3>'+note.title+'</h3>';
@@ -40,7 +41,8 @@ export const show = async function () {
       const response=await fetch('/getstamps?note_id='+note_id);
       const stampsJson=await response.json();
       stampsJson.forEach((stamp)=>{
-        const time=new Date(stamp.created_at).getHours()+":"+new Date(stamp.created_at).getMinutes();
+        const D=new Date(stamp.created_at);
+        const time=D.getHours()+":"+('0'+D.getMinutes()).slice(-2);
         const stampCard = createStampCard(stamp.url, stamp.landmark, time);
         stampScrollBox.appendChild(stampCard);
       });
