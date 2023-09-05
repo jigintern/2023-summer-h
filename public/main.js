@@ -9,8 +9,11 @@ import { createGeneralPopup } from './popup/general-popup.js';
 navigator.serviceWorker.onmessage = function (event) {
   console.log('fire');
   const imageBlob = event.data.file;
-  // we now have the file data and can for example use it as a source for an img with the id image on our page
-  localStorage.setItem('shared-image', URL.createObjectURL(imageBlob));
+  const reader = new FileReader();
+  reader.onload = (event) => {
+    localStorage.setItem('shared-image', event.target.result);
+  };
+  reader.readAsDataURL(imageBlob);
 };
 
 let geolocation = undefined;
@@ -81,18 +84,18 @@ accountButton.addEventListener('click', async () => {
 
 // ユーザー関連の関数
 export const isUserLoggedIn = function () {
-  const session = JSON.parse(window.sessionStorage.getItem('session'));
+  const session = JSON.parse(window.localStorage.getItem('session'));
   if (!session) return false;
   const now = new Date().getTime() / 1000;
   // console.log(now, session?.expires_at);
   return session?.expires_at > now;
 };
 export const getUsername = function () {
-  const session = JSON.parse(window.sessionStorage.getItem('session'));
+  const session = JSON.parse(window.localStorage.getItem('session'));
   return session.user.user_metadata.username;
 };
 export const getUserIconUrl = function () {
-  const session = JSON.parse(window.sessionStorage.getItem('session'));
+  const session = JSON.parse(window.localStorage.getItem('session'));
   return session.user.user_metadata.iconurl;
 };
 
@@ -122,7 +125,7 @@ if (isUserLoggedIn()) {
     geolocation = navigator.geolocation;
   }
 } else {
-  window.sessionStorage.removeItem('session');
+  window.localStorage.removeItem('session');
   accountButton.click();
 }
 

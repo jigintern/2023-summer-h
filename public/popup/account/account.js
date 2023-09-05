@@ -65,7 +65,7 @@ export const init = function () {
         return;
       }
       const data = JSON.parse(buf);
-      window.sessionStorage.setItem('session', JSON.stringify(data.session));
+      window.localStorage.setItem('session', JSON.stringify(data.session));
       accountButton.style.backgroundImage = `url(${data.user.user_metadata.iconurl}`;
 
       ev.target.removeAttribute('disabled');
@@ -167,7 +167,7 @@ export const init = function () {
         return;
       }
       const data = JSON.parse(buf);
-      window.sessionStorage.setItem('session', JSON.stringify(data.session));
+      window.localStorage.setItem('session', JSON.stringify(data.session));
       accountButton.style.backgroundImage = `url(${data.user.user_metadata.iconurl}`;
 
       ev.target.removeAttribute('disabled');
@@ -178,7 +178,7 @@ export const init = function () {
   document
     .querySelector('button.signout-button')
     .addEventListener('click', () => {
-      window.sessionStorage.removeItem('session');
+      window.localStorage.removeItem('session');
       window.localStorage.removeItem('note_id');
       location.href = '/';
     });
