@@ -1,4 +1,4 @@
-import { closeOverlay, showOverlay, suggestNote} from '../main.js';
+import { closeOverlay, showOverlay, suggestNote } from '../main.js';
 import { createGeneralPopup, createLoading } from '../popup/general-popup.js';
 
 let image = undefined;
@@ -40,6 +40,12 @@ export const init = async function () {
       );
     });
   });
+  const sharedImage = localStorage.getItem('shared-image');
+  if (sharedImage) {
+    image = sharedImage;
+    document.querySelector('#img').src = sharedImage;
+    localStorage.removeItem('shared-image');
+  }
 
   document
     .querySelector('button#push-stamp')
@@ -48,14 +54,19 @@ export const init = async function () {
 
       const decoder = new TextDecoder();
       console.log(titleInput.value, landmarkInput.value, categoryInput.value);
-      if (
-        !image ||
-        !titleInput.value ||
-        !landmarkInput.value ||
-        !categoryInput.value
-      ) {
+      if (!titleInput.value || !landmarkInput.value || !categoryInput.value) {
+        if (!image) {
+          image = document.querySelector('#img').src;
+          console.log(image);
+        }
         errorSpan.style.display = 'block';
         errorSpan.textContent = '未入力の項目があります';
+        console.log(
+          image,
+          titleInput.value,
+          landmarkInput.value,
+          categoryInput.value
+        );
         closeOverlay(true);
         return;
       } else {
@@ -63,7 +74,7 @@ export const init = async function () {
         errorSpan.textContent = '';
       }
 
-      const user_id = JSON.parse(sessionStorage.getItem('session')).user.id;
+      const user_id = JSON.parse(localStorage.getItem('session')).user.id;
       let note_id = localStorage.getItem('note_id');
       if (!note_id) {
         note_id = await (
@@ -93,7 +104,7 @@ export const init = async function () {
         buf += decoder.decode(tmp?.value);
         if (tmp.done) break;
       }
-      if (imagePostRes.status === 400) {
+      if (imagePostRes.status !== 200) {
         errorSpan.style.display = 'block';
         errorSpan.textContent = buf;
         closeOverlay(true);

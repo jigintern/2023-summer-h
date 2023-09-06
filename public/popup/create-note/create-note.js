@@ -5,15 +5,17 @@ export const init = function () {
   });
 
   //作成ボタン
-  const createNoteErrorSpan = document.querySelector('div.create-note span.error');
+  const createNoteErrorSpan = document.querySelector(
+    'div.create-note span.error'
+  );
   const createNoteButton = document.querySelector('div.create-note a');
-  createNoteButton.addEventListener('click', async (ev)=>{
+  createNoteButton.addEventListener('click', async (ev) => {
     ev.target.setAttribute('disabled', 'true');
-    const title=document.querySelector('div.create-note input').value;
-    const user_id=JSON.parse(window.sessionStorage.getItem("session"))?.user.id;
-    var note_id=localStorage.getItem('note_id');
+    const title = document.querySelector('div.create-note input').value;
+    const user_id = JSON.parse(window.localStorage.getItem('session'))?.user.id;
+    var note_id = localStorage.getItem('note_id');
     //例外
-    if (!user_id){
+    if (!user_id) {
       createNoteErrorSpan.style.display = 'block';
       createNoteErrorSpan.textContent = 'ログインしてください';
       ev.target.removeAttribute('disabled');
@@ -32,18 +34,18 @@ export const init = function () {
       createNoteErrorSpan.style.display = 'none';
       createNoteErrorSpan.textContent = '';
     }
-    
+
     //スタンプ帳API叩く
-    const data={
-      user_id:user_id, 
-      title:title
+    const data = {
+      user_id: user_id,
+      title: title,
     };
-    const params={
-      method:'POST', 
-      body: JSON.stringify(data)
+    const params = {
+      method: 'POST',
+      body: JSON.stringify(data),
     };
-    const response=await fetch('/newnote', params);
-    note_id=await response.text();
+    const response = await fetch('/newnote', params);
+    note_id = await response.text();
     localStorage.setItem('note_id', note_id);
     console.log(note_id);
 

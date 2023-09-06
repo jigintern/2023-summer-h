@@ -5,6 +5,17 @@ import * as suggestion from './modal/suggestion/suggestion.js';
 import * as account from './popup/account/account.js';
 import { createGeneralPopup } from './popup/general-popup.js';
 
+// Web Share Target API から画像をもらう
+navigator.serviceWorker.onmessage = function (event) {
+  console.log('fire');
+  const imageBlob = event.data.file;
+  const reader = new FileReader();
+  reader.onload = (event) => {
+    localStorage.setItem('shared-image', event.target.result);
+  };
+  reader.readAsDataURL(imageBlob);
+};
+
 let geolocation = undefined;
 const main = document.querySelector('main#main');
 
@@ -26,7 +37,7 @@ const router = async function () {
   }
 };
 
-window.addEventListener('hashchange', router);
+self.addEventListener('hashchange', router);
 
 router();
 
@@ -73,18 +84,18 @@ accountButton.addEventListener('click', async () => {
 
 // ユーザー関連の関数
 export const isUserLoggedIn = function () {
-  const session = JSON.parse(window.sessionStorage.getItem('session'));
+  const session = JSON.parse(window.localStorage.getItem('session'));
   if (!session) return false;
   const now = new Date().getTime() / 1000;
   // console.log(now, session?.expires_at);
   return session?.expires_at > now;
 };
 export const getUsername = function () {
-  const session = JSON.parse(window.sessionStorage.getItem('session'));
+  const session = JSON.parse(window.localStorage.getItem('session'));
   return session.user.user_metadata.username;
 };
 export const getUserIconUrl = function () {
-  const session = JSON.parse(window.sessionStorage.getItem('session'));
+  const session = JSON.parse(window.localStorage.getItem('session'));
   return session.user.user_metadata.iconurl;
 };
 
@@ -114,7 +125,7 @@ if (isUserLoggedIn()) {
     geolocation = navigator.geolocation;
   }
 } else {
-  window.sessionStorage.removeItem('session');
+  window.localStorage.removeItem('session');
   accountButton.click();
 }
 

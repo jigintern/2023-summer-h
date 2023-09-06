@@ -5,7 +5,7 @@ export const init = async function () {
   const overlay = document.querySelector('div.overlay');
   const grid = document.querySelector('div.grid');
 
-  const user_id = JSON.parse(window.sessionStorage.getItem('session'))?.user.id;
+  const user_id = JSON.parse(window.localStorage.getItem('session'))?.user.id;
   const response = await fetch(`/getnotes?user_id=${user_id}`);
   const notesJson = await response.json();
   console.log(notesJson);
